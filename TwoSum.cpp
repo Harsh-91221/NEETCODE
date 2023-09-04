@@ -1,3 +1,12 @@
+/*
+    Given int array & target, return indices of 2 nums that add to target
+    Ex. nums = [2,7,11,15] & target = 9 -> [0,1], 2 + 7 = 9
+
+    At each num, calculate complement, if exists in hash map then return
+
+    Time: O(n)
+    Space: O(n)
+*/
 // BRUTE FORCE
 //  T.C -> O(n^2)
 //  S.C -> O(1)
