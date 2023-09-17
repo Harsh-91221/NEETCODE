@@ -65,6 +65,7 @@ public:
             }
             else if (nums[i] != leastsmaller)
             {
+                // RESET THE COUNT IF THE SEQUENCE IS BREAKED
                 count = 1;
                 leastsmaller = nums[i];
             }
