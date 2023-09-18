@@ -20,6 +20,7 @@ public:
         }
         while (start < end)
         {
+            // alnum CHECK IF CHARACTER IS ALPHABET OR NUMBER
             while (start < end && !isalnum(s[start]))
             {
                 start++;
