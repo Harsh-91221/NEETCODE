@@ -30,7 +30,7 @@ public:
                 }
                 else
                 {
-                    // height[left] is the urrent element here used for finding the trapped water by removing the black part that is smallest in that block
+                    // height[left] is the current element here used for finding the trapped water by removing the black part that is smallest in that block
                     result += maxleft - height[left];
                 }
                 left++;
