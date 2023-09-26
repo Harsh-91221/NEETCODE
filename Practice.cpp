@@ -1,51 +1,75 @@
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
-int minimumOperations(string num)
+vector<int> segmentTree;
+void buildSegmentTree(int start, int end, int currentIndex, vector<int> &array)
 {
-    bool zerofound = false;
-    bool fivefound = false;
-    for (int i = num.size() - 1; i >= 0; i--)
+    if (start == end)
     {
-        // FOR 00
-        if (zerofound && num[i] == '0')
-        {
-            return num.size() - i - 2;
-        }
-        // FOR 50
-        if (zerofound && num[i] == '5')
-        {
-            return num.size() - i - 2;
-        }
-        // FOR 25
-        if (fivefound && num[i] == '2')
-        {
-            return num.size() - i - 2;
-        }
-        // FOR 75
-        if (fivefound && num[i] == '7')
-        {
-            return num.size() - i - 2;
-        }
-        if (num[i] == '0')
-        {
-            zerofound = true;
-        }
-        if (num[i] == '5')
-        {
-            fivefound = true;
-        }
+        segmentTree[currentIndex] = array[start];
+        return;
     }
-    if (zerofound)
-    {
-        return num.size() - 1;
-    }
-    return num.size();
+    int mid = start + (end - start) / 2;
+    buildSegmentTree(start, mid, 2 * currentIndex + 1, array);
+    buildSegmentTree(mid + 1, end, 2 * currentIndex + 2, array);
+    segmentTree[currentIndex] = segmentTree[2 * currentIndex + 1] & segmentTree[2 * currentIndex + 2];
+}
+int query(int start, int end, int currentIndex, int queryStart, int queryEnd)
+{
+    if (queryStart <= start && queryEnd >= end)
+        return segmentTree[currentIndex];
+    if (queryStart > end || queryEnd < start)
+        return INT_MAX;
+    int mid = start + (end - start) / 2;
+    int leftResult = query(start, mid, 2 * currentIndex + 1, queryStart, queryEnd);
+    int rightResult = query(mid + 1, end, 2 * currentIndex + 2, queryStart, queryEnd);
+    return leftResult & rightResult;
 }
 int main()
 {
-    string input = "2245047";
-    int result = minimumOperations(input);
-    cout << "Minimum operations: " << result << endl;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int testCases;
+    cin >> testCases;
+    while (testCases--)
+    {
+        int arraySize;
+        cin >> arraySize;
+        vector<int> array(arraySize);
+        for (int i = 0; i < arraySize; ++i)
+        {
+            cin >> array[i];
+        }
+        int queries;
+        cin >> queries;
+        segmentTree.resize(4 * arraySize);
+        buildSegmentTree(0, arraySize - 1, 0, array);
+        while (queries--)
+        {
+            int startRange, kValue;
+            cin >> startRange >> kValue;
+            startRange--;
+            int high = arraySize - 1;
+            int low = startRange;
+            int answer = -1;
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2;
+                int currentResult = query(0, arraySize - 1, 0, startRange, mid);
+                if (currentResult >= kValue)
+                {
+                    low = mid + 1;
+                    answer = mid;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+            if (answer >= 0)
+                answer += 1;
+            cout << answer << " ";
+        }
+        cout << "\n";
+    }
     return 0;
 }
