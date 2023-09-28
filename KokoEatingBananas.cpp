@@ -1,3 +1,13 @@
+/*
+    Given array of banana piles, guards are gone for h hours
+    Return min int k such that can eat all banans within h
+    Ex. piles = [3,6,7,11] h = 8 -> 4 (1@3, 2@6, 2@7, 3@11)
+
+    Binary search, for each k count hours needed, store min
+
+    Time: O(n x log m) -> n = # of piles, m = max # in a pile
+    Space: O(1)
+*/
 class Solution
 {
 public:
