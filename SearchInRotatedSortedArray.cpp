@@ -62,6 +62,8 @@ public:
     {
         int pivotindex = pivot(nums, 0, nums.size() - 1);
         int ans = 0;
+        //*IMPORTANT POINT*
+        //WE HAVE TO COMPARE TARGET FROM THE FIRST ELEMENT
         if (target >= nums[0] && target <= nums[pivotindex])
         {
             ans = binary(nums, target, 0, pivotindex);
