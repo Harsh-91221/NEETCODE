@@ -1,3 +1,5 @@
+/*Create a set and and check if current element is smaller than k and
+insert it into the set if size of set equals to k then return the no. of operations after the iteration*/
 class Solution
 {
 public:
