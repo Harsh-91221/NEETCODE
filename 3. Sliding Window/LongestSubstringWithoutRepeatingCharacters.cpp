@@ -8,6 +8,36 @@
     Space: O(n)
 */
 
+// BRUTE FORCE
+//  Time: O(n^2)
+//  Space: O(n)
+class Solution
+{
+public:
+    int lengthOfLongestSubstring(string s)
+    {
+        int maxsub = 0;
+        for (int i = 0; i < s.size(); i++)
+        {
+            set<int> st;
+            int count = 0;
+            for (int j = i; j < s.size(); j++)
+            {
+                if (st.count(s[j]))
+                {
+                    break;
+                }
+                st.insert(s[j]);
+                count++;
+            }
+            maxsub = max(maxsub, count);
+        }
+        return maxsub;
+    }
+};
+// OPTIMAL SOLUTION
+//  Time: O(n)
+//  Space: O(n)
 class Solution
 {
 public:
@@ -32,32 +62,5 @@ public:
             }
         }
         return maxsize;
-    }
-};
-
-// Time: O(n^2)
-// Space: O(n)
-class Solution
-{
-public:
-    int lengthOfLongestSubstring(string s)
-    {
-        int maxsub = 0;
-        for (int i = 0; i < s.size(); i++)
-        {
-            set<int> st;
-            int count = 0;
-            for (int j = i; j < s.size(); j++)
-            {
-                if (st.count(s[j]))
-                {
-                    break;
-                }
-                st.insert(s[j]);
-                count++;
-            }
-            maxsub = max(maxsub, count);
-        }
-        return maxsub;
     }
 };
