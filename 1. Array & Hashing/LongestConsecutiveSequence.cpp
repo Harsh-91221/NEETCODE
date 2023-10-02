@@ -7,41 +7,49 @@
     Time: O(n)
     Space: O(n)
 */
+
+// BRUTE FORCE
+//  Time: O(n^2)
+//  Space: O(1)
 class Solution
 {
 public:
-    int longestConsecutive(vector<int> &nums)
+    bool linear(vector<int> &nums, int x)
     {
-        unordered_set<int> s;
         for (int i = 0; i < nums.size(); i++)
         {
-            s.insert(nums[i]);
+            if (nums[i] == x)
+            {
+                return true;
+            }
         }
-        int longest = 1;
+        return false;
+    }
+    int longestConsecutive(vector<int> &nums)
+    {
         if (nums.empty())
         {
             return 0;
         }
-        for (auto a : s)
+        int longest = 1;
+        for (int i = 0; i < nums.size(); i++)
         {
-            if (s.find(a - 1) == s.end())
+            int x = nums[i];
+            int count = 1;
+            while (linear(nums, x + 1) == true)
             {
-                int count = 1;
-                int x = a;
-                while (s.find(x + 1) != s.end())
-                {
-                    count++;
-                    x++;
-                }
-                longest = max(longest, count);
+                x++;
+                count++;
             }
+            longest = max(longest, count);
         }
         return longest;
     }
 }
 
-// Time: O(nlog(n))
-// Space: O(1)
+// BETTER SOLUTION
+//  Time: O(nlog(n))
+//  Space: O(1)
 
 class Solution
 {
@@ -75,39 +83,37 @@ public:
     }
 }
 
-// Time: O(n^2)
-// Space: O(1)
+// OPTIMAL SOLUTION
+//  Time: O(n)
+//  Space: O(n)
 class Solution
 {
 public:
-    bool linear(vector<int> &nums, int x)
-    {
-        for (int i = 0; i < nums.size(); i++)
-        {
-            if (nums[i] == x)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     int longestConsecutive(vector<int> &nums)
     {
+        unordered_set<int> s;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            s.insert(nums[i]);
+        }
+        int longest = 1;
         if (nums.empty())
         {
             return 0;
         }
-        int longest = 1;
-        for (int i = 0; i < nums.size(); i++)
+        for (auto a : s)
         {
-            int x = nums[i];
-            int count = 1;
-            while (linear(nums, x + 1) == true)
+            if (s.find(a - 1) == s.end())
             {
-                x++;
-                count++;
+                int count = 1;
+                int x = a;
+                while (s.find(x + 1) != s.end())
+                {
+                    count++;
+                    x++;
+                }
+                longest = max(longest, count);
             }
-            longest = max(longest, count);
         }
         return longest;
     }
