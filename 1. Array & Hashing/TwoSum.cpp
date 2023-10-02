@@ -44,6 +44,7 @@ public:
             // SEARCHING
             if (mp.find(complement) != mp.end())
             {
+                // mp[complement] contains the index that is being stored after every iteration if the element is not found
                 return {mp[complement], i};
             }
             // FILLING HASHMAP
