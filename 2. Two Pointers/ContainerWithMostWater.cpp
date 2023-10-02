@@ -7,6 +7,35 @@
     Time: O(n)
     Space: O(1)
 */
+
+// BRUTE FORCE
+//  Time: O(n^2)
+//  Space: O(1)
+class Solution
+{
+public:
+    int maxArea(vector<int> &height)
+    {
+        int maxarea = 0;
+        for (int i = 0; i < height.size(); i++)
+        {
+            for (int j = i + 1; j < height.size(); j++)
+            {
+                int width = j - i;
+                int minheight = min(height[i], height[j]);
+                int area = minheight * width;
+                if (maxarea < area)
+                {
+                    maxarea = area;
+                }
+            }
+        }
+        return maxarea;
+    }
+};
+// OPTIMAL SOLUTION
+//  Time: O(n)
+//  Space: O(1)
 class Solution
 {
 public:
@@ -28,31 +57,6 @@ public:
             else
             {
                 end--;
-            }
-        }
-        return maxarea;
-    }
-};
-
-// Time: O(n^2)
-// Space: O(1)
-class Solution
-{
-public:
-    int maxArea(vector<int> &height)
-    {
-        int maxarea = 0;
-        for (int i = 0; i < height.size(); i++)
-        {
-            for (int j = i + 1; j < height.size(); j++)
-            {
-                int width = j - i;
-                int minheight = min(height[i], height[j]);
-                int area = minheight * width;
-                if (maxarea < area)
-                {
-                    maxarea = area;
-                }
             }
         }
         return maxarea;
