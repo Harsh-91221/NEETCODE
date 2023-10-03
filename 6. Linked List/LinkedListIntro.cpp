@@ -13,6 +13,7 @@ public:
 };
 void insertathead(Node *&head, Node *&tail, int data)
 {
+    // IF LIST IS EMPTY
     if (head == NULL)
     {
         Node *temp = new Node(data);
@@ -29,6 +30,7 @@ void insertathead(Node *&head, Node *&tail, int data)
 }
 void insertattail(Node *&head, Node *&tail, int data)
 {
+    // IF LIST IS EMPTY
     if (head == NULL)
     {
         Node *temp = new Node(data);
@@ -42,6 +44,33 @@ void insertattail(Node *&head, Node *&tail, int data)
     tail->next = temp;
     // STEP 3:SHIFT THE HEAD TO TEMP
     tail = temp;
+}
+void insertatposition(Node *&head, Node *&tail, int position, int data)
+{
+    // IF LIST IS EMPTY
+    if (head == NULL)
+    {
+        Node *temp = new Node(data);
+        head = temp;
+        tail = temp;
+        return;
+    }
+    // STEP 1: FIND CURR AND PREV POSITION
+    Node *prev = head;
+    int i = 1;
+    while (i < position)
+    {
+        prev = prev->next;
+        i++;
+    }
+    // POINT CURR TO PREV NEXT
+    Node *curr = prev->next;
+    // CREATE NEW NODE
+    Node *temp = new Node(data);
+    // POINT THE NEWNODE TO CURR
+    temp->next = curr;
+    // POINT PREV TO NEW NODE
+    prev->next = temp;
 }
 void print(Node *&head)
 {
@@ -62,6 +91,7 @@ int main()
     insertathead(head, tail, 50);
     insertattail(head, tail, 60);
     insertattail(head, tail, 70);
+    insertatposition(head, tail, 3, 10);
     // Node *first = new Node(10);
     // Node *second = new Node(20);
     // Node *third = new Node(30);
