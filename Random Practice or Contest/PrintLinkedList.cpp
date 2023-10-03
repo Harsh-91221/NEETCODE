@@ -16,14 +16,31 @@ public:
         this->next = NULL;
     }
 };
-void insertathead(Node *&head, int data)
+void insertathead(Node *&head, Node *&tail, int data)
 {
     // STEP 1:CREATE NEW NODE
     Node *temp = new Node(data);
     // STEP 2:POINT IT TOWARDS HEAD
     temp->next = head;
     // STEP 3:SHIFT THE HEAD TO TEMP
+    if (head == NULL)
+    {
+        tail = temp;
+    }
     head = temp;
+}
+void insertattail(Node *&head, Node *&tail, int data)
+{
+    // STEP 1:CREATE NEW NODE
+    Node *temp = new Node(data);
+    // STEP 2:POINT IT TOWARDS HEAD
+    tail->next = temp;
+    // STEP 3:SHIFT THE HEAD TO TEMP
+    if (head == NULL)
+    {
+        head = temp;
+    }
+    tail = temp;
 }
 void print(Node *&head)
 {
@@ -36,11 +53,14 @@ void print(Node *&head)
 }
 int main()
 {
-    Node *head = new Node(10);
-    insertathead(head, 20);
-    insertathead(head, 30);
-    insertathead(head, 40);
-    insertathead(head, 50);
+    Node *head = NULL;
+    Node *tail = NULL;
+    insertathead(head, tail, 20);
+    insertathead(head, tail, 30);
+    insertathead(head, tail, 40);
+    insertathead(head, tail, 50);
+    insertattail(head, tail, 60);
+    insertattail(head, tail, 70);
     // Node *first = new Node(10);
     // Node *second = new Node(20);
     // Node *third = new Node(30);
