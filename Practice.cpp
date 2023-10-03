@@ -1,243 +1,85 @@
-// Leetcode 704 - Binary Search
-class Solution
+#include <iostream>
+using namespace std;
+class node
 {
 public:
-    int search(vector<int> &nums, int target)
+    int data;
+    node *next;
+    node(int data)
     {
-        int s = 0;
-        int e = nums.size() - 1;
-        while (s <= e)
-        {
-            int mid = s + (e - s) / 2;
-            if (nums[mid] == target)
-            {
-                return mid;
-            }
-            else if (nums[mid] > target)
-            {
-                e = mid - 1;
-            }
-            else
-            {
-                s = mid + 1;
-            }
-        }
-        return -1;
+        this->data = data;
+        this->next = NULL;
     }
 };
-
-// Leetcode 74 -  Search a 2D Matrix
-class Solution
+void inserthead(node *&head, node *&tail, int data)
 {
-public:
-    bool searchMatrix(vector<vector<int>> &matrix, int target)
+    if (head == NULL)
     {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        int s = 0;
-        int e = m * n - 1;
-        while (s <= e)
-        {
-            int mid = s + (e - s) / 2;
-            int element = matrix[mid / n][mid % n];
-            if (element == target)
-            {
-                return true;
-            }
-            else if (element > target)
-            {
-                e = mid - 1;
-            }
-            else
-            {
-                s = mid + 1;
-            }
-        }
-        return false;
+        node *temp = new node(data);
+        head = temp;
+        tail = temp;
+        return;
     }
-};
-
-// Leetcode 875 - Koko Eating Bananas
-class Solution
+    node *temp = new node(data);
+    temp->next = head;
+    head = temp;
+}
+void inserttail(node *&head, node *&tail, int data)
 {
-public:
-    long long solve(vector<int> &piles, int h)
+    if (head == NULL)
     {
-        int totalH = 0;
-        for (int i = 0; i < piles.size(); i++)
-        {
-            totalH += ceil((double)piles[i] / (double)h);
-        }
-        return totalH;
+        node *temp = new node(data);
+        head = temp;
+        tail = temp;
+        return;
     }
-    int minEatingSpeed(vector<int> &piles, int h)
-    {
-        int s = 1;
-        int e = 10000000000;
-        while (s <= e)
-        {
-            int mid = s + (e - s) / 2;
-            int totalH = solve(piles, mid);
-            if (totalH <= h)
-            {
-                e = mid - 1;
-            }
-            else
-            {
-                s = mid + 1;
-            }
-        }
-        return s;
-    }
-};
-
-// Leetcode 153 - Find Minimum in Rotated Sorted Array
-class Solution
+    node *temp = new node(data);
+    tail->next = temp;
+    tail = temp;
+}
+void insertpos(node *&head, node *&tail, int pos, int data)
 {
-public:
-    int findMin(vector<int> &nums)
+    if (head == NULL)
     {
-        int s = 0;
-        int e = nums.size() - 1;
-        while (s <= e)
-        {
-            if (nums[s] <= nums[e])
-            {
-                return nums[s];
-            }
-            int mid = s + (e - s) / 2;
-            if (nums[s] <= nums[mid])
-            {
-                s = mid + 1;
-            }
-            else
-            {
-                e = mid;
-            }
-        }
-        return nums[s];
+        node *temp = new node(data);
+        head = temp;
+        tail = temp;
+        return;
     }
-};
-
-// Leetcode 33 - Search in Rotated Sorted Array
-class Solution
+    node *prev = head;
+    int i = 1;
+    while (i < pos)
+    {
+        prev = prev->next;
+        i++;
+    }
+    node *curr = prev->next;
+    node *temp = new node(data);
+    temp->next = curr;
+    prev->next = temp;
+}
+void print(node *&head)
 {
-public:
-    int pivot(vector<int> &nums, int s, int e)
+    node *temp = head;
+    while (temp != NULL)
     {
-        while (s <= e)
-        {
-            if (s == e)
-            {
-                return e;
-            }
-            int mid = s + (e - s) / 2;
-            if (mid - 1 >= s && nums[mid - 1] > nums[mid])
-            {
-                return mid - 1;
-            }
-            if (mid <= e && nums[mid] > nums[mid + 1])
-            {
-                return mid;
-            }
-            if (nums[s] >= nums[mid])
-            {
-                e = mid;
-            }
-            else
-            {
-                s = mid + 1;
-            }
-        }
-        return s;
+        cout << temp->data << " ";
+        temp = temp->next;
     }
-    int binarysearch(vector<int> &nums, int target, int s, int e)
-    {
-        while (s <= e)
-        {
-            int mid = s + (e - s) / 2;
-            if (nums[mid] == target)
-            {
-                return mid;
-            }
-            if (nums[mid] > target)
-            {
-                e = mid - 1;
-            }
-            else
-            {
-                s = mid + 1;
-            }
-        }
-        return -1;
-    }
-    int search(vector<int> &nums, int target)
-    {
-        int ans = 0;
-        int pivotindex = pivot(nums, 0, nums.size() - 1);
-        // WE HAVE TO COMPARE TARGET FROM THE FIRST ELEMENT
-        if (target >= nums[0] && nums[pivotindex] >= target)
-        {
-            ans = binarysearch(nums, target, 0, pivotindex);
-        }
-        else
-        {
-            ans = binarysearch(nums, target, pivotindex + 1, nums.size() - 1);
-        }
-        return ans;
-    }
-};
-
-// Leetcode 981 - Time Based Key-Value Store
-class TimeMap
+}
+int main()
 {
-public:
-    unordered_map<string, vector<pair<int, string>>> mp;
-    TimeMap()
-    {
-    }
-    void set(string key, string value, int timestamp)
-    {
-        mp[key].push_back({timestamp, value});
-    }
-
-    string get(string key, int timestamp)
-    {
-        if (mp.find(key) == mp.end())
-        {
-            return "";
-        }
-        int s = 0;
-        int e = mp[key].size() - 1;
-        if (mp[key][0].first > timestamp)
-        {
-            return "";
-        }
-        string ans = "";
-        while (s <= e)
-        {
-            int mid = s + (e - s) / 2;
-            if (mp[key][mid].first == timestamp)
-            {
-                return mp[key][mid].second;
-            }
-            else if (mp[key][mid].first < timestamp)
-            {
-                ans = mp[key][mid].second;
-                s = mid + 1;
-            }
-            else
-            {
-                e = mid - 1;
-            }
-        }
-        return ans;
-    }
-};
-
-/**
- * Your TimeMap object will be instantiated and called as such:
- * TimeMap* obj = new TimeMap();
- * obj->set(key,value,timestamp);
- * string param_2 = obj->get(key,timestamp);
- */
+    node *head = NULL;
+    node *tail = NULL;
+    inserthead(head, tail, 50);
+    inserthead(head, tail, 40);
+    inserthead(head, tail, 30);
+    inserthead(head, tail, 20);
+    inserthead(head, tail, 10);
+    inserttail(head, tail, 60);
+    inserttail(head, tail, 70);
+    inserttail(head, tail, 80);
+    inserttail(head, tail, 100);
+    insertpos(head, tail, 8, 90);
+    print(head);
+}
