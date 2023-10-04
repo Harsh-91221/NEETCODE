@@ -1,0 +1,1 @@
+deletehead(head, tail);
