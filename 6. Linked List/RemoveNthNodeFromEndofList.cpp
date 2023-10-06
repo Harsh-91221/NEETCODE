@@ -57,3 +57,25 @@ public:
         return result;
     }
 };
+
+// OPTIMAL
+ListNode *removeNthFromEnd(ListNode *head, int n)
+{
+    ListNode *dummy = new ListNode();
+    dummy->next = head;
+    ListNode *slow = dummy;
+    ListNode *fast = dummy;
+    int i = 1;
+    while (i <= n)
+    {
+        fast = fast->next;
+        i++;
+    }
+    while (fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    slow->next = slow->next->next;
+    return dummy->next;
+};
