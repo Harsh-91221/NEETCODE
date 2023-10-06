@@ -1,21 +1,45 @@
-Node *removeLoop(Node *head)
-{
-    Node *slow = head;
-    Node *fast = head;
-    while (fast != NULL && fast->next != NULL)
+class Solution {
+public:
+    ListNode* reverse(ListNode* head)
     {
-        slow = slow->next;
-        fast = fast->next->next;
-        if (slow == fast)
+        ListNode* prev=NULL;
+        ListNode* curr=head;
+        while(curr!=NULL)
         {
-            slow = head;
-            while (slow != fast)
-            {
-                slow = slow->next;
-                fast = fast->next;
-            }
-            return slow;
+            ListNode* forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
         }
+        return prev;
     }
-    return NULL;
-}
+    bool isPalindrome(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+        {
+            return true;
+        }
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        ListNode* reversekahead=reverse(slow);
+        ListNode* temp1=head;
+        ListNode* temp2=reversekahead;
+        while(temp2!=NULL)
+        {
+            if(temp1->val!=temp2->val)
+            {
+                return false;
+            }
+            else
+            {
+                temp1=temp1->next;
+                temp2=temp2->next;
+            }
+        }
+        return true;
+    }
+};
