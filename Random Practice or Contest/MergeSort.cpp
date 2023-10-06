@@ -29,6 +29,7 @@ void merge(vector<int> &nums, int low, int mid, int high)
         ans.push_back(nums[right]);
         right++;
     }
+    // Yeh step dhyan rakhna hai
     for (int i = low; i <= high; i++)
     {
         nums[i] = ans[i - low];
