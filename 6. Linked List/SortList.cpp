@@ -51,6 +51,7 @@ public:
         {
             return h1;
         }
+        // Dummy node
         ListNode *ans = new ListNode(0);
         ListNode *curr = ans;
         while (h1 != NULL && h2 != NULL)
@@ -88,6 +89,7 @@ public:
         ListNode *mid = midnode(head);
         ListNode *newhead = mid->next;
         mid->next = NULL;
+        // Recursive call for sorting the list individually
         ListNode *lefthalf = sortList(head);
         ListNode *righthalf = sortList(newhead);
         return mergesort(lefthalf, righthalf);
