@@ -8,6 +8,8 @@
     Space: O(1)
 */
 // BRUTE FORCE
+// Time: O(2n)
+// Space: O(1)
 class Solution
 {
 public:
@@ -59,6 +61,8 @@ public:
 };
 
 // OPTIMAL
+// Time: O(n)
+// Space: O(1)
 ListNode *removeNthFromEnd(ListNode *head, int n)
 {
     ListNode *dummy = new ListNode();
