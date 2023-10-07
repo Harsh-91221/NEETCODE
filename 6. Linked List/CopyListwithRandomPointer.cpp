@@ -17,7 +17,7 @@ public:
         {
             return NULL;
         }
-        // Step 1 :Insert new nodes in original linked list
+        // Step 1 : Insert new nodes in original linked list
         Node *curr = head;
         while (curr != NULL)
         {
