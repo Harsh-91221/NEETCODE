@@ -1,3 +1,12 @@
+/*
+    Given heads of 2 sorted linked lists, merge into 1 sorted list
+    Ex. list1 = [1,2,4], list2 = [1,3,4] -> [1,1,2,3,4,4]
+
+    Create curr pointer, iterate thru, choose next to be lower one
+
+    Time: O(m + n)
+    Space: O(1)
+*/
 class Solution
 {
 public:
