@@ -23,6 +23,7 @@ public:
                 count = 0;
             }
         }
+        // if we have elements left after the count turns 0
         bouquets += (count / k);
         if (bouquets >= m)
         {
