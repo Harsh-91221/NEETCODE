@@ -1,3 +1,4 @@
+#include <limits.h>
 int solve(int n, int x, int y, int z, vector<int> &dp)
 {
     if (n == 0)
@@ -19,7 +20,7 @@ int solve(int n, int x, int y, int z, vector<int> &dp)
     ans = max(ans1, max(ans2, ans3));
     return dp[n] = ans;
 }
-int maximizeTheCuts(int n, int x, int y, int z)
+int cutSegments(int n, int x, int y, int z)
 {
     vector<int> dp(n + 1, -1);
     int ans = solve(n, x, y, z, dp);
