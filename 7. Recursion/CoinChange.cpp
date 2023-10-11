@@ -16,6 +16,7 @@ public:
         for (int i = 0; i < coins.size(); i++)
         {
             int ans = solve(coins, amount - coins[i]);
+            // To ignore the -1 case
             if (ans != -1)
             {
                 mini = min(mini, ans + 1);
