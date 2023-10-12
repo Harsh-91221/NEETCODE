@@ -9,7 +9,9 @@ public:
             maxi = max(sum, maxi);
             return;
         }
-        solve(nums, i + 2, sum + nums[i], maxi);
+        // Include - i+2 as we have to consider non adjacent elements for the sum
+        solve(nums, i + 2, nums[i] + sum, maxi);
+        // Exclude i+1
         solve(nums, i + 1, sum, maxi);
     }
     int rob(vector<int> &nums)
