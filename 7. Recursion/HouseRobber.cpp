@@ -36,7 +36,9 @@ public:
         {
             return dp[i];
         }
+        // Include - i+2 as we have to consider non adjacent elements for the sum
         int include = nums[i] + solve(nums, i + 2, maxi, dp);
+        // Exclude i+1
         int exclude = solve(nums, i + 1, maxi, dp);
         return dp[i] = max(include, exclude);
     }
