@@ -9,7 +9,7 @@ public:
         {
             sum += chalk[i];
         }
-        // if k is larger than the total sum, it effectively starts over from student 0.
+        // if k is larger than the total sum, it effectively starts over from student 0. Hence maintaining cyclic nature
         k = k % sum;
         for (int i = 0; i < n; i++)
         {
