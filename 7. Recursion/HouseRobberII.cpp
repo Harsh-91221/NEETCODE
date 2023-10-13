@@ -68,16 +68,19 @@ public:
         }
         for (int i = 0; i < nums.size(); i++)
         {
+            // Exclude the first house and start from the second house
             if (i != 0)
             {
                 temp1.push_back(nums[i]);
             }
+            // Exclude the last house
             if (i != n - 1)
             {
                 temp2.push_back(nums[i]);
             }
         }
         int exclude_first = solve(temp1, 0, 0, INT_MIN, dp);
+        // Reset the dp array for the second pass
         dp.assign(n + 1, -1);
         int exclude_last = solve(temp2, 0, 0, INT_MIN, dp);
         return max(exclude_first, exclude_last);
