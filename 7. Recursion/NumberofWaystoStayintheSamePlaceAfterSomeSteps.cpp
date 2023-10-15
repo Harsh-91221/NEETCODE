@@ -1,3 +1,36 @@
+// Brute Force - Recursion
+class Solution
+{
+public:
+    int solve(int steps, int len, int i)
+    {
+        if (i < 0 || i >= len)
+        {
+            return 0;
+        }
+        if (steps == 0)
+        {
+            if (i == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        int right = solve(steps - 1, len, i + 1);
+        int left = solve(steps - 1, len, i - 1);
+        int stay = solve(steps - 1, len, i);
+        return (left + right + stay);
+    }
+    int numWays(int steps, int arrLen)
+    {
+        return solve(steps, arrLen, 0);
+    }
+};
+
+// Optimal - DP
 class Solution
 {
 public:
