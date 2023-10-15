@@ -1,31 +1,48 @@
+
+using namespace std;
 class Solution
 {
 public:
-    int solve(vector<int> &nums, int i, int sum, int maxi)
+    vector<vector<int>> constructProductMatrix(vector<vector<int>> &grid)
     {
-        if (i >= nums.size())
+        int numRows = grid.size();
+        int numCols = grid[0].size();
+        vector<int> modifiedgrid;
+        for (int i = 0; i < numRows; i++)
         {
-            return 0;
+            for (int j = 0; j < numCols; j++)
+            {
+                modifiedgrid.push_back(grid[i][j] % 12345);
+            }
         }
-        int include = nums[i] + solve(nums, i + 2, sum, maxi);
-        int exclude = solve(nums, i + 1, sum, maxi);
-        return max(include, exclude);
-    }
-
-    int rob(vector<int> &nums)
-    {
-        int n = nums.size();
-        if (n == 1)
+        int n = numRows * numCols;
+        vector<long long> prefix(n);
+        prefix[0] = 1;
+        vector<long long> finalProd(n);
+        for (int i = 1; i < n; i++)
         {
-            return nums[0];
+            prefix[i] = (prefix[i - 1] * modifiedgrid[i - 1]) % 12345;
         }
-
-        vector<int> temp1(nums.begin(), nums.end() - 1);
-        vector<int> temp2(nums.begin() + 1, nums.end());
-
-        int exclude_first = solve(temp1, 0, 0, INT_MIN);
-        int exclude_last = solve(temp2, 0, 0, INT_MIN);
-
-        return max(exclude_first, exclude_last);
+        long long suffix = 1;
+        for (int i = n - 1; i >= 0; i--)
+        {
+            finalProd[i] = (suffix * prefix[i]) % 12345;
+            suffix = (suffix * modifiedgrid[i]) % 12345;
+        }
+        vector<vector<int>> result;
+        vector<int> row;
+        int colCount = 0;
+        for (int i = 0; i < n; i++)
+        {
+            row.push_back(finalProd[i]);
+            colCount++;
+            if (colCount == numCols)
+            {
+                result.push_back(row);
+                row.clear();
+                colCount = 0;
+            }
+        }
+        return result;
     }
 };
