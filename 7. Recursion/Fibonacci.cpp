@@ -1,3 +1,5 @@
+// T.C - O(2^n)
+// S.C - O(1)
 #include <iostream>
 using namespace std;
 int fib(int n)
