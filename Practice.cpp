@@ -1,32 +1,18 @@
-bool solve(int n, vector<int> &arr, int k, int i, int sum)
+class Solution
 {
-    if (i >= n)
+public:
+    int maxProfit(vector<int> &prices)
     {
-        if (sum == k)
+        int profit = 0;
+        for (int i = 1; i < prices.size(); i++)
         {
-            return true;
+            // Check if the current price is higher than the previous day's price
+            if (prices[i] > prices[i - 1])
+            {
+                // If it is, calculate the profit by selling and buying on consecutive days
+                profit += (prices[i] - prices[i - 1]);
+            }
         }
-        return false; // Add this line to handle the case when sum != k.
+        return profit;
     }
-
-    // Include the current element in the subsequence
-    if (solve(n, arr, k, i + 1, sum + arr[i]))
-    {
-        return true;
-    }
-
-    // Exclude the current element from the subsequence
-    if (solve(n, arr, k, i + 1, sum))
-    {
-        return true;
-    }
-
-    // If neither inclusion nor exclusion leads to a valid subsequence, return false
-    return false;
-}
-
-bool checkSubsequenceSum(int n, vector<int> &arr, int k)
-{
-    int sum = 0;
-    return solve(n, arr, k, 0, sum);
-}
+};
