@@ -11,12 +11,14 @@ public:
             }
             return;
         }
+        // Pick
         if (candidates[i] <= target)
         {
             output.push_back(candidates[i]);
             solve(candidates, target - candidates[i], i, ans, output);
             output.pop_back();
         }
+        // Not pick
         solve(candidates, target, i + 1, ans, output);
     }
     vector<vector<int>> combinationSum(vector<int> &candidates, int target)
