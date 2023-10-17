@@ -1,18 +1,33 @@
-class Solution
+#include <iostream>
+#include <unordered_set>
+#include <sstream>
+using namespace std;
+void removeDupWord(string str)
 {
-public:
-    int maxProfit(vector<int> &prices)
+    // Used to split string around spaces.
+    istringstream ss(str);
+
+    // To store individual visited words
+    unordered_set<string> hsh;
+
+    // Traverse through all words
+    do
     {
-        int profit = 0;
-        for (int i = 1; i < prices.size(); i++)
+        string word;
+        ss >> word;
+
+        // If current word is not seen before.
+        while (hsh.find(word) == hsh.end())
         {
-            // Check if the current price is higher than the previous day's price
-            if (prices[i] > prices[i - 1])
-            {
-                // If it is, calculate the profit by selling and buying on consecutive days
-                profit += (prices[i] - prices[i - 1]);
-            }
+            cout << word << " ";
+            hsh.insert(word);
         }
-        return profit;
-    }
-};
+
+    } while (ss);
+}
+int main()
+{
+    string str = "My name is harsh harsh";
+    removeDupWord(str);
+    return 0;
+}
