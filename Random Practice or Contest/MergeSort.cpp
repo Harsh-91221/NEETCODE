@@ -1,3 +1,5 @@
+// T.C - O(nlog(n))
+// S.C - O(n)
 #include <iostream>
 #include <vector>
 using namespace std;
