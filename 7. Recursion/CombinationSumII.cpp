@@ -1,3 +1,5 @@
+// T.C - O(2^n*k)
+// S.C - O(k*x)
 class Solution
 {
 public:
