@@ -1,35 +1,26 @@
 class Solution
 {
 public:
-    void solve(int i, vector<int> &candidates, int target, vector<int> &ans, vector<vector<int>> &output)
+    void solve(vector<int> &nums, int i, vector<int> &ans, vector<vector<int>> &output)
     {
-        if (target == 0)
+        output.push_back(ans); // Add the current subset to the output list
+        for (int j = i; j < nums.size(); j++)
         {
-            output.push_back(ans);
-            return;
-        }
-        for (int j = i; j < candidates.size(); j++)
-        {
-            if (j > i && candidates[j] == candidates[j - 1])
+            if (j != i && nums[j] == nums[j - 1])
             {
-                continue; // Skip duplicates to avoid duplicate combinations
+                continue; // Skip duplicates to avoid duplicate subsets
             }
-
-            if (candidates[j] > target)
-            {
-                break; // Skip if the current candidate is greater than the remaining target
-            }
-            ans.push_back(candidates[j]);
-            solve(j + 1, candidates, target - candidates[j], ans, output);
-            ans.pop_back();
+            ans.push_back(nums[j]);          // Include the current element in the subset
+            solve(nums, j + 1, ans, output); // Recursively generate subsets
+            ans.pop_back();                  // Backtrack to the previous state
         }
     }
-    vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
+    vector<vector<int>> subsetsWithDup(vector<int> &nums)
     {
-        sort(candidates.begin(), candidates.end());
         vector<int> ans;
         vector<vector<int>> output;
-        solve(0, candidates, target, ans, output);
+        sort(nums.begin(), nums.end()); // Sort the input array to handle duplicates
+        solve(nums, 0, ans, output);
         return output;
     }
 };
