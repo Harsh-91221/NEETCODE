@@ -1,26 +1,32 @@
 class Solution
 {
 public:
-    void solve(vector<int> &nums, int i, vector<int> &ans, vector<vector<int>> &output)
+    bool isIsomorphic(string s, string t)
     {
-        output.push_back(ans); // Add the current subset to the output list
-        for (int j = i; j < nums.size(); j++)
+        unordered_map<char, char> mp1;
+        unordered_map<char, char> mp2;
+        if (s.size() != t.size())
         {
-            if (j != i && nums[j] == nums[j - 1])
-            {
-                continue; // Skip duplicates to avoid duplicate subsets
-            }
-            ans.push_back(nums[j]);          // Include the current element in the subset
-            solve(nums, j + 1, ans, output); // Recursively generate subsets
-            ans.pop_back();                  // Backtrack to the previous state
+            return false;
         }
-    }
-    vector<vector<int>> subsetsWithDup(vector<int> &nums)
-    {
-        vector<int> ans;
-        vector<vector<int>> output;
-        sort(nums.begin(), nums.end()); // Sort the input array to handle duplicates
-        solve(nums, 0, ans, output);
-        return output;
+        for (int i = 0; i < s.size(); i++)
+        {
+            // Check if 's[i]' is already mapped to a character in 't' (mp1[s[i]).
+            if (mp1[s[i]] && mp1[s[i]] != t[i])
+            {
+                return false;
+            }
+            // Check if 't[i]' is already mapped to a character in 's' (mp2[t[i]).
+            if (mp2[t[i]] && mp2[t[i]] != s[i])
+            {
+                return false;
+            }
+            // Update the mappings in both maps:
+            // - Map 's[i]' to 't[i]' in mp1
+            // - Map 't[i]' to 's[i]' in mp2
+            mp1[s[i]] = t[i];
+            mp2[t[i]] = s[i];
+        }
+        return true;
     }
 };
