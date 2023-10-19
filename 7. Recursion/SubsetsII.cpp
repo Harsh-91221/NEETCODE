@@ -1,17 +1,18 @@
 class Solution
 {
 public:
-    void solve(vector<int> &nums, int i, vector<int> &ans, vector<vector<int>> &output)
+    void solve(vector<int> &nums, int idx, vector<int> &ans, vector<vector<int>> &output)
     {
         output.push_back(ans); // Add the current subset to the output list
-        for (int j = i; j < nums.size(); j++)
+        // Remember this step where i have to start loop from idx
+        for (int i = idx; i < nums.size(); i++)
         {
-            if (j != i && nums[j] == nums[j - 1])
+            if (i != idx && nums[i] == nums[i - 1])
             {
                 continue; // Skip duplicates to avoid duplicate subsets
             }
-            ans.push_back(nums[j]);          // Include the current element in the subset
-            solve(nums, j + 1, ans, output); // Recursively generate subsets
+            ans.push_back(nums[i]);          // Include the current element in the subset
+            solve(nums, i + 1, ans, output); // Recursively generate subsets
             ans.pop_back();                  // Backtrack to the previous state
         }
     }
