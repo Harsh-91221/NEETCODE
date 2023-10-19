@@ -1,3 +1,5 @@
+// T.C - O(2^n+2^nlog(2^n))
+// S.C - O(2^n)
 void solve(vector<int> &num, int i, vector<int> &ans, int n, int sum)
 {
     if (i == n)
