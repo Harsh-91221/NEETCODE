@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-void subsequence(string s, int i, string output)
+void subsequence(string &s, int i, string output)
 {
     if (i >= s.length())
     {
