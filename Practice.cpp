@@ -1,26 +1,30 @@
-void solve(string &str, int i, vector<vector<string>> &output)
+class Solution
 {
-    // If 'i' is equal to or greater than the size of 'str', it means we have
-    // successfully generated a permutation, so we add it to the 'output'.
-    if (i >= str.size())
+public:
+    string build(string &s)
     {
-        output.push_back(str);
-        return;
+        string temp = "";
+        int n = s.length();
+        int i = 0;
+        while (i < n)
+        {
+            if (s[i] != '#')
+            {
+                temp.push_back(s[i]); // Append the character to the 'temp' string
+            }
+            else
+            {
+                if (!temp.empty())
+                {
+                    temp.pop_back(); // Remove the last character from 'temp'
+                }
+            }
+            i++;
+        }
+        return temp;
     }
-    // Iterate through elements in the range [i, str.size() - 1].
-    for (int j = i; j < str.size(); j++)
+    bool backspaceCompare(string s, string t)
     {
-        // Swap the elements at indices 'i' and 'j'.
-        swap(str[i], str[j]);
-        // Recursively call the 'solve' function for the next index (i + 1).
-        solve(str, i + 1, output);
-        // Restore the original order by swapping the elements back.
-        swap(str[i], str[j]);
+        return build(s) == build(t);
     }
-}
-vector<string> generatePermutations(string &str)
-{
-    vector<vector<string>> output;
-    solve(str, 0, output);
-    return output;
-}
+};
