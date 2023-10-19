@@ -5,7 +5,7 @@ void subsequence(string s, int i, string output)
 {
     if (i >= s.length())
     {
-        cout << output;
+        cout << output << endl;
         return;
     }
     // INCLUDE
