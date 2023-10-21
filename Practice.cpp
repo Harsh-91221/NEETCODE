@@ -1,69 +1,36 @@
 class Solution
 {
 public:
-    // Function to check if it's valid to place character 'c' at the given row and column.
-    bool isvalid(vector<vector<char>> &board, int row, int col, char c)
+    int n;
+    int solve(int prev, int i, vector<int> &nums, int k, vector<int> &dp)
     {
-        // Check the current row for the presence of character 'c'.
-        for (int i = 0; i < 9; i++)
+        if (i >= nums.size())
         {
-            if (board[i][col] == c)
-            {
-                return false;
-            }
+            return 0;
         }
-        // Check the current column for the presence of character 'c'.
-        for (int i = 0; i < 9; i++)
+        if (dp[i] != -1)
         {
-            if (board[row][i] == c)
-            {
-                return false;
-            }
+            return dp[i];
         }
-        // Check the 3x3 subgrid for the presence of character 'c'.
-        for (int i = 0; i < 9; i++)
+        int result = 0;
+        if (prev == -1 || i - prev <= k)
         {
-            if (board[3 * (row / 3) + i / 3][3 * (col / 3) + i % 3] == c)
-            {
-                return false;
-            }
+            int take = nums[i] + solve(i, i + 1, nums, k, dp);
+            int not_take = solve(prev, i + 1, nums, k, dp);
+            result = max(take, not_take);
         }
-        return true;
+        return dp[i] = result;
     }
-    // Function to recursively solve the Sudoku puzzle.
-    bool solve(vector<vector<char>> &board)
+    int constrainedSubsetSum(vector<int> &nums, int k)
     {
-        for (int i = 0; i < board.size(); i++)
+
+        n = nums.size();
+        vector<int> dp(n + 1, -1);
+        int ans = solve(-1, 0, nums, k, dp);
+        if (ans == 0)
         {
-            for (int j = 0; j < board[0].size(); j++)
-            {
-                // If the current cell is empty ('.'), try placing digits from '1' to '9'.
-                if (board[i][j] == '.')
-                {
-                    for (char c = '1'; c <= '9'; c++)
-                    {
-                        if (isvalid(board, i, j, c))
-                        {
-                            // If placing 'c' is valid, set it in the current cell and recursively solve.
-                            board[i][j] = c;
-                            if (solve(board))
-                            {
-                                return true; // If the Sudoku puzzle is solved, return true.
-                            }
-                            else
-                            {
-                                board[i][j] = '.'; // If not solved, reset the cell and backtrack.
-                            }
-                        }
-                    }
-                    return false; // If no valid digit can be placed, return false.
-                }
-            }
+            ans = *max_element(nums.begin(), nums.end());
         }
-        return true; // If the entire puzzle is solved, return true.
-    }
-    void solveSudoku(vector<vector<char>> &board)
-    {
-        solve(board);
+        return ans;
     }
 };
