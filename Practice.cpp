@@ -1,36 +1,80 @@
-class Solution
-{
-public:
-    int n;
-    int solve(int prev, int i, vector<int> &nums, int k, vector<int> &dp)
-    {
-        if (i >= nums.size())
-        {
-            return 0;
-        }
-        if (dp[i] != -1)
-        {
-            return dp[i];
-        }
-        int result = 0;
-        if (prev == -1 || i - prev <= k)
-        {
-            int take = nums[i] + solve(i, i + 1, nums, k, dp);
-            int not_take = solve(prev, i + 1, nums, k, dp);
-            result = max(take, not_take);
-        }
-        return dp[i] = result;
-    }
-    int constrainedSubsetSum(vector<int> &nums, int k)
-    {
+#include <iostream>
+#include <vector>
+using namespace std;
 
-        n = nums.size();
-        vector<int> dp(n + 1, -1);
-        int ans = solve(-1, 0, nums, k, dp);
-        if (ans == 0)
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int array_size, divisor;
+        cin >> array_size >> divisor;
+
+        vector<int> elements(array_size);
+
+        for (int i = 0; i < array_size; i++)
         {
-            ans = *max_element(nums.begin(), nums.end());
+            cin >> elements[i];
         }
-        return ans;
+
+        int min_difference = divisor;
+
+        for (int i = 0; i < array_size; i++)
+        {
+            if (divisor == 4)
+            {
+                if (elements[i] % 4 == 0)
+                {
+                    min_difference = 0;
+                    break;
+                }
+                else
+                {
+                    int remainder = elements[i] % divisor;
+                    if (min_difference > divisor - remainder)
+                    {
+                        min_difference = divisor - remainder;
+                    }
+                }
+            }
+            else
+            {
+                if (elements[i] % divisor == 0)
+                {
+                    min_difference = 0;
+                    break;
+                }
+                else
+                {
+                    int remainder = elements[i] % divisor;
+                    if (min_difference > divisor - remainder)
+                    {
+                        min_difference = divisor - remainder;
+                    }
+                }
+            }
+        }
+
+        int result = (divisor == 4) ? 2 : 0;
+
+        for (int i = 0; i < array_size; i++)
+        {
+            if ((divisor == 4 && elements[i] % 2 == 0) || (divisor != 4 && elements[i] % 2 == 0))
+            {
+                result = max(result - 1, 0);
+            }
+        }
+
+        if (divisor == 4)
+        {
+            cout << min(result, min_difference) << '\n';
+        }
+        else
+        {
+            cout << min_difference << '\n';
+        }
     }
-};
+
+    return 0;
+}
