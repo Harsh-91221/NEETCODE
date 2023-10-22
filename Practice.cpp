@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <set>
 using namespace std;
 
 int main()
@@ -8,73 +8,53 @@ int main()
     cin >> t;
     while (t--)
     {
-        int array_size, divisor;
-        cin >> array_size >> divisor;
+        int q;
+        cin >> q;
 
-        vector<int> elements(array_size);
+        set<pair<int, int>> segments;
+        bool intersecting = false;
 
-        for (int i = 0; i < array_size; i++)
+        while (q--)
         {
-            cin >> elements[i];
-        }
+            char op;
+            int l, r;
+            cin >> op >> l >> r;
 
-        int min_difference = divisor;
-
-        for (int i = 0; i < array_size; i++)
-        {
-            if (divisor == 4)
+            if (op == '+')
             {
-                if (elements[i] % 4 == 0)
+                segments.insert({l, r});
+
+                // Check for intersections
+                auto it = segments.find({l, r});
+                if (it != segments.begin())
                 {
-                    min_difference = 0;
-                    break;
-                }
-                else
-                {
-                    int remainder = elements[i] % divisor;
-                    if (min_difference > divisor - remainder)
+                    --it;
+                    if (it->second >= l)
                     {
-                        min_difference = divisor - remainder;
+                        intersecting = true;
                     }
+                }
+
+                it = segments.find({l, r});
+                ++it;
+                if (it != segments.end() && it->first <= r)
+                {
+                    intersecting = true;
                 }
             }
             else
             {
-                if (elements[i] % divisor == 0)
+                segments.erase({l, r});
+                if (intersecting)
                 {
-                    min_difference = 0;
-                    break;
+                    cout << "YES\n";
                 }
                 else
                 {
-                    int remainder = elements[i] % divisor;
-                    if (min_difference > divisor - remainder)
-                    {
-                        min_difference = divisor - remainder;
-                    }
+                    cout << "NO\n";
                 }
             }
         }
-
-        int result = (divisor == 4) ? 2 : 0;
-
-        for (int i = 0; i < array_size; i++)
-        {
-            if ((divisor == 4 && elements[i] % 2 == 0) || (divisor != 4 && elements[i] % 2 == 0))
-            {
-                result = max(result - 1, 0);
-            }
-        }
-
-        if (divisor == 4)
-        {
-            cout << min(result, min_difference) << '\n';
-        }
-        else
-        {
-            cout << min_difference << '\n';
-        }
     }
-
     return 0;
 }
