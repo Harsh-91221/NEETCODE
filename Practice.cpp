@@ -1,60 +1,34 @@
-#include <iostream>
-#include <set>
-using namespace std;
-
-int main()
+class Solution
 {
-    int t;
-    cin >> t;
-    while (t--)
+public:
+    void solve(vector<int> &candidates, int target, int i, vector<int> &ans, vector<vector<int>> &output)
     {
-        int q;
-        cin >> q;
-
-        set<pair<int, int>> segments;
-        bool intersecting = false;
-
-        while (q--)
+        if (target == 0)
         {
-            char op;
-            int l, r;
-            cin >> op >> l >> r;
-
-            if (op == '+')
+            output.push_back(ans);
+            return;
+        }
+        for (int j = i; j < candidates.size(); j++)
+        {
+            if (j > i && candidates[j] == candidates[j - 1])
             {
-                segments.insert({l, r});
-
-                // Check for intersections
-                auto it = segments.find({l, r});
-                if (it != segments.begin())
-                {
-                    --it;
-                    if (it->second >= l)
-                    {
-                        intersecting = true;
-                    }
-                }
-
-                it = segments.find({l, r});
-                ++it;
-                if (it != segments.end() && it->first <= r)
-                {
-                    intersecting = true;
-                }
+                continue;
             }
-            else
+            if (candidates[j] > target)
             {
-                segments.erase({l, r});
-                if (intersecting)
-                {
-                    cout << "YES\n";
-                }
-                else
-                {
-                    cout << "NO\n";
-                }
+                break;
             }
+            ans.push_back(candidates[j]);
+            solve(candidates, target - candidates[j], j + 1, ans, output);
+            ans.pop_back();
         }
     }
-    return 0;
-}
+    vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
+    {
+        sort(candidates.begin(), candidates.end());
+        vector<int> ans;
+        vector<vector<int>> output;
+        solve(candidates, target, 0, ans, output);
+        return output;
+    }
+};
