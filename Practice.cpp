@@ -1,34 +1,28 @@
 class Solution
 {
 public:
-    void solve(vector<int> &candidates, int target, int i, vector<int> &ans, vector<vector<int>> &output)
+    void solve(int k, int n, int i, vector<int> &ans, vector<vector<int>> &output)
     {
-        if (target == 0)
+        if (k == ans.size())
         {
-            output.push_back(ans);
+            if (n == 0)
+            {
+                output.push_back(ans);
+            }
             return;
         }
-        for (int j = i; j < candidates.size(); j++)
+        for (int j = i; j <= 9; j++)
         {
-            if (j > i && candidates[j] == candidates[j - 1])
-            {
-                continue;
-            }
-            if (candidates[j] > target)
-            {
-                break;
-            }
-            ans.push_back(candidates[j]);
-            solve(candidates, target - candidates[j], j + 1, ans, output);
+            ans.push_back(j);
+            solve(k, n - j, j + 1, ans, output);
             ans.pop_back();
         }
     }
-    vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
+    vector<vector<int>> combinationSum3(int k, int n)
     {
-        sort(candidates.begin(), candidates.end());
         vector<int> ans;
         vector<vector<int>> output;
-        solve(candidates, target, 0, ans, output);
+        solve(k, n, 0, ans, output);
         return output;
     }
 };

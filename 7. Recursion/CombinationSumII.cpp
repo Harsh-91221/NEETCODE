@@ -17,7 +17,7 @@ void solve(vector<int> &candidates, int target, int i, vector<int> &ans, vector<
         }
         if (candidates[j] > target)
         {
-            break; // Skip if the current number is too large to contribute to the sum
+            return; // Skip if the current number is too large to contribute to the sum
         }
         ans.push_back(candidates[j]);
         solve(candidates, target - candidates[j], j + 1, ans, output);
