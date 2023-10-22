@@ -21,6 +21,7 @@ void solve(vector<int> &candidates, int target, int i, vector<int> &ans, vector<
         }
         ans.push_back(candidates[j]);
         solve(candidates, target - candidates[j], j + 1, ans, output);
+        // Agar vo element suitable nahi hoga toh usse pop karke next element ko dekhenge karke
         ans.pop_back();
     }
 }
