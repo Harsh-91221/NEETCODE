@@ -1,8 +1,32 @@
-bool comp(string &a,string &b)
+vector<int> getSecondOrderElements(int n, vector<int> a)
 {
-    if(a.size()!=b.size())
+    int maxIdx = 0; // Index of the maximum element
+    int minIdx = 0; // Index of the minimum element
+    for (int i = 1; i < n; i++)
     {
-        return a.size()<b.size();
+        if (a[i] > a[maxIdx])
+        {
+            maxIdx = i;
+        }
+        if (a[i] < a[minIdx])
+        {
+            minIdx = i;
+        }
     }
-    return a<b;
+    int secondMaxIdx = (maxIdx == 0) ? 1 : 0;
+    int secondMinIdx = (minIdx == 0) ? 1 : 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (i != maxIdx && a[i] > a[secondMaxIdx])
+        {
+            secondMaxIdx = i;
+        }
+        if (i != minIdx && a[i] < a[secondMinIdx])
+        {
+            secondMinIdx = i;
+        }
+    }
+
+    vector<int> result = {a[secondMaxIdx], a[secondMinIdx]};
+    return result;
 }
