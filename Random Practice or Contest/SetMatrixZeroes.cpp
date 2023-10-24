@@ -1,3 +1,5 @@
+// Brute Force
+// T.C - O(nxm)x(n+m)+(nxm)
 class Solution
 {
 public:
