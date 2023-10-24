@@ -1,26 +1,25 @@
 class Solution
 {
 public:
-    int majorityElement(vector<int> &arr)
+    vector<int> rearrangeArray(vector<int> &nums)
     {
-        int candidate = arr[0];
-        int count = 1;
-        for (int i = 1; i < arr.size(); i++)
+        int n = nums.size();
+        int pos = 0;
+        int neg = 1;
+        vector<int> nigg(n, 0);
+        for (int i = 0; i < nums.size(); i++)
         {
-            if (arr[i] == candidate)
+            if (nums[i] > 0)
             {
-                count++;
+                ans[pos] = nums[i]; // Place positive numbers at positions pos, pos+2, pos+4, and so on.
+                pos += 2;           // Move the positive position by 2 for the next positive number.
             }
             else
             {
-                count--;
-            }
-            if (count == 0)
-            {
-                candidate = arr[i];
-                count = 1;
+                ans[neg] = nums[i]; // Place negative numbers at positions neg, neg+2, neg+4, and so on.
+                neg += 2;           // Move the negative position by 2 for the next negative number.
             }
         }
-        return candidate;
+        return ans;
     }
 };
