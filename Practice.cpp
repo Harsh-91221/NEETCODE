@@ -1,24 +1,31 @@
 class Solution
 {
 public:
-    int subarraySum(vector<int> &nums, int k)
+    vector<vector<int>> fourSum(vector<int> &nums, int target)
     {
-        int count = 0;
-        int sum = 0;
+        vector<vector<int>> ans;
+        set<vector<int>> st;
         for (int i = 0; i < nums.size(); i++)
         {
-            sum += nums[j];
-            if (sum == k)
+            for (int j = i + 1; j < nums.size(); j++)
             {
-                count++;
+                set<long long> s;
+                for (int k = j + 1; k < nums.size(); k++)
+                {
+                    long long sum = nums[i] + nums[j];
+                    sum += nums[k];
+                    long long fourth = target - sum;
+                    if (s.find(fourth) != s.end())
+                    {
+                        vector<int> temp = {nums[i], nums[j], nums[k], (int)fourth};
+                        sort(temp.begin(), temp.end());
+                        st.insert(temp);
+                    }
+                    s.insert(nums[k]);
+                }
             }
-            if (prevsum.find(sum - k) != prevsum.end())
-            {
-                count += prevsum[sum - k];
-            }
-            prevsum[sum]++;
         }
+        vector<vector<int>> result(st.begin(), st.end());
+        return result;
     }
-    return count;
-}
 };
