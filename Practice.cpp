@@ -1,28 +1,10 @@
-class Solution
+#include <vector>
+void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long long> &b)
 {
-public:
-    vector<vector<int>> merge(vector<vector<int>> &intervals)
+    for (int i = 0; i < b.size(); i++)
     {
-        vector<vector<int>> mergeinterval;
-        if (intervals.size() == 0)
-        {
-            return mergeinterval;
-        }
-        sort(intervals.begin(), intervals.end());
-        vector<int> temp = intervals[0];
-        for (auto it : intervals)
-        {
-            if (it[0] <= temp[1])
-            {
-                temp[1] = max(it[1], temp[1]);
-            }
-            else
-            {
-                mergeinterval.push_back(temp);
-                temp = it;
-            }
-        }
-        mergeinterval.push_back(temp);
-        return mergeinterval;
+        a.push_back(b[i]);
     }
-};
+    sort(a.begin(), a.end());
+    b.clear();
+}
