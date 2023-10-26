@@ -1,24 +1,28 @@
-void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long long> &b)
+class Solution
 {
-    int m = a.size();
-    int n = b.size();
-    a.resize(m + n);
-    int mainArrayIndex = m + n - 1;
-    int leftIndex = m - 1;
-    int rightIndex = n - 1;
-    while (leftIndex >= 0 && rightIndex >= 0)
+public:
+    vector<vector<int>> merge(vector<vector<int>> &intervals)
     {
-        if (a[leftIndex] > b[rightIndex])
+        vector<vector<int>> mergeinterval;
+        if (intervals.size() == 0)
         {
-            a[mainArrayIndex--] = a[leftIndex--];
+            return mergeinterval;
         }
-        else
+        sort(intervals.begin(), intervals.end());
+        vector<int> temp = intervals[0];
+        for (auto it : intervals)
         {
-            a[mainArrayIndex--] = b[rightIndex--];
+            if (it[0] <= temp[1])
+            {
+                temp[1] = max(it[1], temp[1]);
+            }
+            else
+            {
+                mergeinterval.push_back(temp);
+                temp = it;
+            }
         }
+        mergeinterval.push_back(temp);
+        return mergeinterval;
     }
-    while (rightIndex >= 0)
-    {
-        a[mainArrayIndex--] = b[rightIndex--];
-    }
-}
+};
