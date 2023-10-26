@@ -1,4 +1,3 @@
-#include <vector>
 void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long long> &b)
 {
     int m = a.size();
