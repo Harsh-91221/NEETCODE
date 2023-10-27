@@ -1,71 +1,26 @@
 class Solution
 {
 public:
-    void merge(vector<int> &nums, int low, int mid, int high)
+    int maxProduct(vector<int> &nums)
     {
-        vector<int> ans;
-        int left = low;
-        int right = mid + 1;
-        while (left <= mid && right <= high)
+        int prefix = 1;
+        int suffix = 1;
+        int maxi = INT_MIN;
+        int n = nums.size();
+        for (int i = 0; i < n; i++)
         {
-            if (nums[left] <= nums[right])
+            if (prefix == 0)
             {
-                ans.push_back(nums[left]);
-                left++;
+                prefix = 1;
             }
-            else
+            if (suffix == 0)
             {
-                ans.push_back(nums[right]);
-                right++;
+                suffix = 1;
             }
+            prefix = prefix * nums[i];
+            suffix = suffix * nums[n - i - 1];
+            maxi = max(maxi, max(prefix, suffix));
         }
-        while (left <= mid)
-        {
-            ans.push_back(nums[left]);
-            left++;
-        }
-        while (right <= high)
-        {
-            ans.push_back(nums[right]);
-            right++;
-        }
-        // Yeh step dhyan rakhna hai
-        for (int i = low; i <= high; i++)
-        {
-            nums[i] = ans[i - low];
-        }
-    }
-    int countpairs(vector<int> &nums, int low, int mid, int high)
-    {
-        int count = 0;
-        int right = mid + 1;
-        for (int i = low; i <= mid; i++)
-        {
-            while (right <= high && nums[i] > 2 * (long long)nums[right])
-            {
-                right++;
-            }
-            count += (right - (mid + 1));
-        }
-        return count;
-    }
-    int mergesort(vector<int> &nums, int low, int high)
-    {
-        int count = 0;
-        ;
-        if (low >= high)
-        {
-            return count;
-        }
-        int mid = (low + high) / 2;
-        count += mergesort(nums, low, mid);
-        count += mergesort(nums, mid + 1, high);
-        count += countpairs(nums, low, mid, high);
-        merge(nums, low, mid, high);
-        return count;
-    }
-    int reversePairs(vector<int> &nums)
-    {
-        return mergesort(nums, 0, nums.size() - 1);
+        return maxi;
     }
 };
