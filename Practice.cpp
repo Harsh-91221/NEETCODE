@@ -1,26 +1,49 @@
 class Solution
 {
 public:
-    int maxProduct(vector<int> &nums)
+    int M = 1e9 + 7;
+    int a = 0, e = 1, i = 2, o = 3, u = 4;
+    int solve(int ch, int n, vector<vector<int>> &dp)
     {
-        int prefix = 1;
-        int suffix = 1;
-        int maxi = INT_MIN;
-        int n = nums.size();
-        for (int i = 0; i < n; i++)
+        if (n == 0)
         {
-            if (prefix == 0)
-            {
-                prefix = 1;
-            }
-            if (suffix == 0)
-            {
-                suffix = 1;
-            }
-            prefix = prefix * nums[i];
-            suffix = suffix * nums[n - i - 1];
-            maxi = max(maxi, max(prefix, suffix));
+            return 1;
         }
-        return maxi;
+        if (dp[ch][n] != -1)
+        {
+            return dp[ch][n] % M;
+        }
+        if (ch == a)
+        {
+            return dp[ch][n] = solve(e, n - 1, dp) % M;
+        }
+        else if (ch == e)
+        {
+            return dp[ch][n] = (solve(a, n - 1, dp) + solve(i, n - 1, dp)) % M;
+        }
+        else if (ch == i)
+        {
+            return dp[ch][n] = (solve(a, n - 1, dp) + solve(e, n - 1, dp) + solve(o, n - 1, dp) + solve(u, n - 1, dp)) % M;
+        }
+        else if (ch == o)
+        {
+            return dp[ch][n] = (solve(i, n - 1, dp) + solve(u, n - 1, dp)) % M;
+        }
+        else if (ch == u)
+        {
+            return dp[ch][n] = solve(a, n - 1, dp) % M;
+        }
+        return 0;
+    }
+    int countVowelPermutation(int n)
+    {
+        long result = 0;
+        vector<vector<long long>> dp(5, vector<long long>(n + 1, -1));
+        result = (result + solve(a, n - 1, dp)) % M;
+        result = (result + solve(e, n - 1, dp)) % M;
+        result = (result + solve(i, n - 1, dp)) % M;
+        result = (result + solve(o, n - 1, dp)) % M;
+        result = (result + solve(u, n - 1, dp)) % M;
+        return result;
     }
 };
