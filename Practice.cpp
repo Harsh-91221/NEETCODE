@@ -1,14 +1,26 @@
 class Solution
 {
 public:
-    int poorPigs(int buckets, int minutesToDie, int minutesToTest)
+    int findMin(vector<int> &nums)
     {
-        int T = minutesToTest / minutesToDie + 1;
-        int pigs = 0;
-        while (pow(T, pigs) < buckets)
+        int s = 0;
+        int e = nums.size() - 1;
+        while (s <= e)
         {
-            pigs++;
+            int mid = s + (e - s) / 2;
+            if (nums[s] <= nums[e])
+            {
+                return nums[s];
+            }
+            if (nums[s] <= nums[mid])
+            {
+                s = mid + 1;
+            }
+            else
+            {
+                e = mid;
+            }
         }
-        return pigs;
+        return nums[s];
     }
 };
