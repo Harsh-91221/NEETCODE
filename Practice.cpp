@@ -1,31 +1,18 @@
-class Solution
+int missingK(vector<int> vec, int n, int k)
 {
-public:
-    int sumD(vector<int> &nums, int threshold)
+    int s = 0;
+    int e = arr.size() - 1;
+    while (s <= e)
     {
-        int sum = 0;
-        for (int i = 0; i < nums.size(); i++)
+        int mid = s + (e - s) / 2;
+        if (arr[mid] - mid <= k)
         {
-            sum += ceil((double)nums[i] / (double)threshold);
+            s = mid + 1;
         }
-        return sum;
-    }
-    int smallestDivisor(vector<int> &nums, int threshold)
-    {
-        int s = 1;
-        int e = *max_element(nums.begin(), nums.end());
-        while (s <= e)
+        else
         {
-            int mid = s + (e - s) / 2;
-            if (sumD(nums, mid) <= threshold)
-            {
-                e = mid - 1;
-            }
-            else
-            {
-                s = mid + 1;
-            }
+            e = mid - 1;
         }
-        return s;
     }
-};
+    return s + k;
+}
