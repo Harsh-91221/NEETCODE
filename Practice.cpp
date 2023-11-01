@@ -1,37 +1,25 @@
-class Solution
+bool isAnagram(string str1, string str2)
 {
-public:
-    string reverseWords(string s)
+    unordered_map<char, int> mp1;
+    unordered_map<char, int> mp2;
+    if (str1.size() != str2.size())
     {
-        string result = "";
-        int i = 0;
-        int n = s.size();
-        while (i < n)
-        {
-            while (i < n && s[i] == ' ')
-            {
-                i++;
-            }
-            if (i >= n)
-            {
-                break;
-            }
-            int j = i + 1;
-            while (j < n && s[j] != ' ')
-            {
-                j++;
-            }
-            string sub = s.substr(i, j - i);
-            if (result.size() == 0)
-            {
-                result = sub;
-            }
-            else
-            {
-                result = sub + " " + result;
-            }
-            i = j + 1;
-        }
-        return result;
+        return false;
     }
-};
+    for (auto a : str1)
+    {
+        mp1[a]++;
+    }
+    for (auto a : str2)
+    {
+        mp2[a]++;
+    }
+    for (int i = 0; i < str1.size(); i++)
+    {
+        if (mp1[str1[i]] != mp2[str1[i]])
+        {
+            return false;
+        }
+    }
+    return true;
+}
