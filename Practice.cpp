@@ -1,25 +1,17 @@
-bool isAnagram(string str1, string str2)
+class Solution
 {
-    unordered_map<char, int> mp1;
-    unordered_map<char, int> mp2;
-    if (str1.size() != str2.size())
+public:
+    int getLastMoment(int n, vector<int> &left, vector<int> &right)
     {
-        return false;
-    }
-    for (auto a : str1)
-    {
-        mp1[a]++;
-    }
-    for (auto a : str2)
-    {
-        mp2[a]++;
-    }
-    for (int i = 0; i < str1.size(); i++)
-    {
-        if (mp1[str1[i]] != mp2[str1[i]])
+        int result = 0;
+        for (auto &a : left)
         {
-            return false;
+            result = max(result, a);
         }
+        for (auto &a : right)
+        {
+            result = max(result, n - a);
+        }
+        return result;
     }
-    return true;
-}
+};
