@@ -1,31 +1,36 @@
-class Solution
+class SeatManager
 {
 public:
-    int getWinner(vector<int> &arr, int k)
+    vector<int> t;
+    int N;
+    SeatManager(int n)
     {
-        int maxi = *max_element(arr.begin(), arr.end());
-        int winner = arr[0];
-        int streak = 0;
-        if (k >= arr.size())
+        N = n;
+        t.resize(N + 1, -1);
+    }
+
+    int reserve()
+    {
+        for (int i = 1; i <= N; i++)
         {
-            return maxi;
-        }
-        for (int i = 1; i < arr.size(); i++)
-        {
-            if (arr[i] > winner)
+            if (t[i] == -1)
             {
-                winner = arr[i];
-                streak = 1;
-            }
-            else
-            {
-                streak++;
-            }
-            if (streak == k || winner == maxi)
-            {
-                return winner;
+                t[i] = 1;
+                return i;
             }
         }
-        return winner;
+        return -1;
+    }
+
+    void unreserve(int seatNumber)
+    {
+        t[seatNumber] = -1;
     }
 };
+
+/**
+ * Your SeatManager object will be instantiated and called as such:
+ * SeatManager* obj = new SeatManager(n);
+ * int param_1 = obj->reserve();
+ * obj->unreserve(seatNumber);
+ */
