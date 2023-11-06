@@ -1,30 +1,25 @@
 class SeatManager
 {
 public:
-    vector<int> t;
-    int N;
+    priority_queue<int, vector<int>, greater<int>> pq;
     SeatManager(int n)
     {
-        N = n;
-        t.resize(N + 1, -1);
+        for (int i = 1; i <= n; i++)
+        {
+            pq.push(i);
+        }
     }
 
     int reserve()
     {
-        for (int i = 1; i <= N; i++)
-        {
-            if (t[i] == -1)
-            {
-                t[i] = 1;
-                return i;
-            }
-        }
-        return -1;
+        int seat = pq.top();
+        pq.pop();
+        return seat;
     }
 
     void unreserve(int seatNumber)
     {
-        t[seatNumber] = -1;
+        pq.push(seatNumber);
     }
 };
 
