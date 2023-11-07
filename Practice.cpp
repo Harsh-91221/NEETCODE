@@ -1,31 +1,26 @@
-class SeatManager
+class Solution
 {
 public:
-    priority_queue<int, vector<int>, greater<int>> pq;
-    SeatManager(int n)
+    int eliminateMaximum(vector<int> &dist, vector<int> &speed)
     {
-        for (int i = 1; i <= n; i++)
+        int n = dist.size();
+        vector<int> time(n);
+        for (int i = 0; i < n; i++)
         {
-            pq.push(i);
+            time[i] = ceil((float)dist[i] / speed[i]);
         }
-    }
-
-    int reserve()
-    {
-        int seat = pq.top();
-        pq.pop();
-        return seat;
-    }
-
-    void unreserve(int seatNumber)
-    {
-        pq.push(seatNumber);
+        sort(time.begin(), time.end());
+        int count = 1;
+        int timepass = 1;
+        for (int i = 1; i < n; i++)
+        {
+            if (time[i] - timepass <= 0)
+            {
+                return count;
+            }
+            count++;
+            timepass++;
+        }
+        return count;
     }
 };
-
-/**
- * Your SeatManager object will be instantiated and called as such:
- * SeatManager* obj = new SeatManager(n);
- * int param_1 = obj->reserve();
- * obj->unreserve(seatNumber);
- */
