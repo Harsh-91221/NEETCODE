@@ -3,16 +3,12 @@ class Solution
 public:
     long long minSum(vector<int> &nums1, vector<int> &nums2)
     {
-        // Get the lengths of the input vectors
         int len1 = nums1.size();
         int len2 = nums2.size();
-
-        // Initialize sums and counters for zeros
         long long sum1 = 0;
         long long sum2 = 0;
         int zero1 = 0;
         int zero2 = 0;
-
         // Calculate sum1 and count zeros in nums1
         for (int i = 0; i < len1; i++)
         {
@@ -24,7 +20,6 @@ public:
                 zero1++;
             }
         }
-
         // Calculate sum2 and count zeros in nums2
         for (int i = 0; i < len2; i++)
         {
@@ -36,7 +31,6 @@ public:
                 zero2++;
             }
         }
-
         // Check if sums are equal
         if (sum1 == sum2)
         {
