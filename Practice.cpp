@@ -1,26 +1,32 @@
-class Solution
+int lengthOfLoop(Node *head)
 {
-public:
-    int eliminateMaximum(vector<int> &dist, vector<int> &speed)
+    Node *slow = head;
+    Node *fast = head;
+    Node *entry = head;
+    int count = 1;
+    if (head == NULL || head->next == NULL)
     {
-        int n = dist.size();
-        vector<int> time(n);
-        for (int i = 0; i < n; i++)
-        {
-            time[i] = ceil((float)dist[i] / speed[i]);
-        }
-        sort(time.begin(), time.end());
-        int count = 1;
-        int timepass = 1;
-        for (int i = 1; i < n; i++)
-        {
-            if (time[i] - timepass <= 0)
-            {
-                return count;
-            }
-            count++;
-            timepass++;
-        }
-        return count;
+        return NULL;
     }
-};
+    while (fast && fast->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if (slow == fast)
+        {
+            while (slow != entry)
+            {
+                entry = entry->next;
+                slow = slow->next;
+            }
+            Node *p = entry;
+            while (p->next != entry)
+            {
+                count++;
+                p = p->next;
+            }
+            return count;
+        }
+    }
+    return 0;
+}
