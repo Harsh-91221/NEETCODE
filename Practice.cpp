@@ -1,32 +1,43 @@
-int lengthOfLoop(Node *head)
+class Solution
 {
-    Node *slow = head;
-    Node *fast = head;
-    Node *entry = head;
-    int count = 1;
-    if (head == NULL || head->next == NULL)
+public:
+    int countPalindromicSubsequence(string s)
     {
-        return NULL;
-    }
-    while (fast && fast->next)
-    {
-        slow = slow->next;
-        fast = fast->next->next;
-        if (slow == fast)
+        unordered_map<int, pair<int, int>> mp;
+        for (char ch = 'a'; ch <= 'z'; ch++)
         {
-            while (slow != entry)
-            {
-                entry = entry->next;
-                slow = slow->next;
-            }
-            Node *p = entry;
-            while (p->next != entry)
-            {
-                count++;
-                p = p->next;
-            }
-            return count;
+            mp[ch] = {-1, -1};
         }
+        int n = s.length();
+        for (int i = 0; i < n; i++)
+        {
+            char ch = s[i];
+            if (mp[ch].first == -1)
+            {
+                mp[ch].first = i;
+            }
+        }
+        for (int i = n - 1; i >= 0; i--)
+        {
+            char ch = s[i];
+            if (mp[ch].second == -1)
+            {
+                mp[ch].second = i;
+            }
+        }
+        int ans = 0;
+        for (auto a : mp)
+        {
+            char ch = a.first;
+            int start = a.second.first;
+            int end = a.second.second;
+            unordered_set<int> st;
+            for (int i = start + 1; i < end; i++)
+            {
+                st.insert(s[i]);
+            }
+            ans += st.size();
+        }
+        return ans;
     }
-    return 0;
-}
+};
