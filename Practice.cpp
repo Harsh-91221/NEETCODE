@@ -1,23 +1,50 @@
-class Solution
+Node *segregateEvenOdd(Node *head)
 {
-public:
-    int maximumElementAfterDecrementingAndRearranging(vector<int> &arr)
+    Node *even = NULL;
+    Node *odd = NULL;
+    Node *tempeven = NULL;
+    Node *tempodd = NULL;
+    Node *temp = head;
+    while (temp != NULL)
     {
-        int n = arr.size();
-        int maxi = INT_MIN;
-        sort(arr.begin(), arr.end());
-        for (int i = 0; i < n; i++)
+        Node *add = new Node(temp->data);
+        if (temp->data % 2 == 0)
         {
-            if (i == 0)
+            if (even == NULL)
             {
-                arr[0] = 1;
+                even = add;
+                tempeven = add;
             }
-            else if (abs(arr[i] - arr[i - 1]) > 1)
+            else
             {
-                arr[i] = arr[i - 1] + 1;
+                tempeven->next = add;
+                tempeven = add;
             }
-            maxi = max(maxi, arr[i]);
         }
-        return maxi;
+        else
+        {
+            if (odd == NULL)
+            {
+                odd = add;
+                tempodd = add;
+            }
+            else
+            {
+                tempodd->next = add;
+                tempodd = tempodd->next;
+            }
+        }
+        temp = temp->next;
     }
-};
+    if (even != NULL)
+    {
+        Node *head = even;
+        while (even->next != NULL)
+        {
+            even = even->next;
+        }
+        even->next = odd;
+        return head;
+    }
+    return odd;
+}
