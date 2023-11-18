@@ -1,23 +1,14 @@
-Node *uniqueSortedList(Node *head)
+class Solution
 {
-    if (head == NULL)
+public:
+    int minPairSum(vector<int> &nums)
     {
-        return NULL;
-    }
-    Node *curr = head;
-    while (curr != NULL)
-    {
-        if (curr->next != NULL && (curr->data == curr->next->data))
+        sort(nums.begin(), nums.end());
+        int minMaxSum = 0;
+        for (int i = 0; i < nums.size() / 2; i++)
         {
-            Node *next1 = curr->next->next;
-            Node *nodetodelete = curr->next;
-            delete (nodetodelete);
-            curr->next = next1;
+            minMaxSum = max(minMaxSum, nums[i] + nums[nums.size() - 1 - i]);
         }
-        else
-        {
-            curr = curr->next;
-        }
+        return minMaxSum;
     }
-    return head;
-}
+};
