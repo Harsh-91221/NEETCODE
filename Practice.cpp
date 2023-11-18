@@ -1,14 +1,24 @@
 class Solution
 {
 public:
-    int minPairSum(vector<int> &nums)
+    int maxFrequency(vector<int> &nums, int k)
     {
-        sort(nums.begin(), nums.end());
-        int minMaxSum = 0;
-        for (int i = 0; i < nums.size() / 2; i++)
+        sort(begin(nums), end(nums));
+        int n = nums.size();
+        int result = 0;
+        int i = 0;
+        long currSum = 0;
+        for (int j = 0; j < n; j++)
         {
-            minMaxSum = max(minMaxSum, nums[i] + nums[nums.size() - 1 - i]);
+            long target = nums[j];
+            currSum += nums[j];
+            while ((j - i + 1) * target - currSum > k)
+            {
+                currSum -= nums[i];
+                i++;
+            }
+            result = max(result, j - i + 1);
         }
-        return minMaxSum;
+        return result;
     }
 };
