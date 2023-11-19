@@ -1,24 +1,30 @@
-class Solution
+static int minSegmentsForHigherScore(int[] segments)
 {
-public:
-    int maxFrequency(vector<int> &nums, int k)
+    int scoreP1 = 0, scoreP2 = 0;
+    int minSegments = segments.length + 1;
+
+    for (int i = 0; i <= segments.length; ++i)
     {
-        sort(begin(nums), end(nums));
-        int n = nums.size();
-        int result = 0;
-        int i = 0;
-        long currSum = 0;
-        for (int j = 0; j < n; j++)
+        int remainingSegments = segments.length - i;
+        int scoreDiff = scoreP2 - remainingSegments;
+
+        if (scoreP1 > scoreP2 || (scoreP1 == scoreP2 && scoreDiff < 0))
         {
-            long target = nums[j];
-            currSum += nums[j];
-            while ((j - i + 1) * target - currSum > k)
-            {
-                currSum -= nums[i];
-                i++;
-            }
-            result = max(result, j - i + 1);
+            minSegments = Math.min(minSegments, i);
         }
-        return result;
+
+        if (i < segments.length)
+        {
+            if (segments[i] == 1)
+            {
+                ++scoreP1;
+            }
+            else
+            {
+                --scoreP1;
+            }
+        }
     }
-};
+
+    return (minSegments > segments.length) ? -1 : minSegments;
+}
