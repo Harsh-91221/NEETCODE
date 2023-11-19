@@ -1,30 +1,27 @@
-static int minSegmentsForHigherScore(int[] segments)
+class Solution
 {
-    int scoreP1 = 0, scoreP2 = 0;
-    int minSegments = segments.length + 1;
-
-    for (int i = 0; i <= segments.length; ++i)
+public:
+    int findMinimumOperations(string s1, string s2, string s3)
     {
-        int remainingSegments = segments.length - i;
-        int scoreDiff = scoreP2 - remainingSegments;
-
-        if (scoreP1 > scoreP2 || (scoreP1 == scoreP2 && scoreDiff < 0))
+        int n1 = s1.size();
+        int n2 = s2.size();
+        int n3 = s3.size();
+        int ans = -1;
+        int len = min({n1, n2, n3});
+        for (int i = 0; i < len; i++)
         {
-            minSegments = Math.min(minSegments, i);
-        }
-
-        if (i < segments.length)
-        {
-            if (segments[i] == 1)
+            string pref1 = s1.substr(0, i + 1);
+            string pref2 = s2.substr(0, i + 1);
+            string pref3 = s3.substr(0, i + 1);
+            if (pref1 == pref2 && pref2 == pref3)
             {
-                ++scoreP1;
+                ans = n1 - (i + 1) + n2 - (i + 1) + n3 - (i + 1);
             }
             else
             {
-                --scoreP1;
+                break;
             }
         }
+        return ans;
     }
-
-    return (minSegments > segments.length) ? -1 : minSegments;
-}
+};
