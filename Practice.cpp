@@ -1,21 +1,18 @@
 class Solution
 {
 public:
-    long long minimumSteps(string s)
+    int minPairSum(vector<int> &nums)
     {
-        long long ans = 0;
-        long long count = 0;
-        for (int i = s.size() - 1; i >= 0; i--)
+        int maximum = 0;
+        sort(nums.begin(), nums.end());
+        int i = 0, j = nums.size() - 1;
+        while (i < j)
         {
-            if (s[i] == '1')
-            {
-                ans += count;
-            }
-            else
-            {
-                count++;
-            }
+            int sum = nums[i] + nums[j];
+            maximum = max(maximum, sum);
+            i++;
+            j--;
         }
-        return ans;
+        return maximum;
     }
 };
