@@ -1,18 +1,42 @@
 class Solution
 {
 public:
-    int minPairSum(vector<int> &nums)
+    int getlen(ListNode *head)
     {
-        int maximum = 0;
-        sort(nums.begin(), nums.end());
-        int i = 0, j = nums.size() - 1;
-        while (i < j)
+        int len = 0;
+        while (head)
         {
-            int sum = nums[i] + nums[j];
-            maximum = max(maximum, sum);
-            i++;
-            j--;
+            len++;
+            head = head->next;
         }
-        return maximum;
+        return len;
+    }
+    ListNode *rotateRight(ListNode *head, int k)
+    {
+        if (head == NULL)
+        {
+            return NULL;
+        }
+        int len = getlen(head);
+        int actualrotateK = (k % len);
+        if (actualrotateK == 0)
+        {
+            return head;
+        }
+        int newlastnodePos = len - actualrotateK - 1;
+        ListNode *newLastNode = head;
+        for (int i = 0; i < newlastnodePos; i++)
+        {
+            newLastNode = newLastNode->next;
+        }
+        ListNode *newhead = newLastNode->next;
+        newLastNode->next = NULL;
+        ListNode *it = newhead;
+        while (it->next)
+        {
+            it = it->next;
+        }
+        it->next = head;
+        return newhead;
     }
 };
