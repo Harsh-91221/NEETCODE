@@ -1,42 +1,53 @@
-class Solution
+#include <bits/stdc++.h>
+using namespace std;
+void sortedInsertion(stack<int> &st, int element)
 {
-public:
-    int getlen(ListNode *head)
+    if (st.empty() || st.top() < element)
     {
-        int len = 0;
-        while (head)
-        {
-            len++;
-            head = head->next;
-        }
-        return len;
+        st.push(element);
+        return;
     }
-    ListNode *rotateRight(ListNode *head, int k)
+    int top_element = st.top();
+    st.pop();
+    // recursive call
+    sortedInsertion(st, element);
+    st.push(top_element);
+}
+
+void sortStack(stack<int> &st)
+{
+    // base case
+    if (st.empty())
     {
-        if (head == NULL)
-        {
-            return NULL;
-        }
-        int len = getlen(head);
-        int actualrotateK = (k % len);
-        if (actualrotateK == 0)
-        {
-            return head;
-        }
-        int newlastnodePos = len - actualrotateK - 1;
-        ListNode *newLastNode = head;
-        for (int i = 0; i < newlastnodePos; i++)
-        {
-            newLastNode = newLastNode->next;
-        }
-        ListNode *newhead = newLastNode->next;
-        newLastNode->next = NULL;
-        ListNode *it = newhead;
-        while (it->next)
-        {
-            it = it->next;
-        }
-        it->next = head;
-        return newhead;
+        return;
     }
-};
+    int element = st.top();
+    st.pop();
+    // recursive call
+    sortStack(st);
+    sortedInsertion(st, element);
+}
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        stack<int> st;
+        cin >> n;
+        for (int i = 1; i <= n; i++)
+        {
+            int ele;
+            cin >> ele;
+            st.push(ele);
+        }
+        sortStack(st);
+        while (!st.empty())
+        {
+            cout << st.top() << " ";
+            st.pop();
+        }
+        cout << endl;
+    }
+    return 0;
+}
