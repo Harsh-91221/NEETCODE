@@ -1,53 +1,22 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <string>
 using namespace std;
-void sortedInsertion(stack<int> &st, int element)
+void solve(string s, int i, string &temp, vector<string> &ans)
 {
-    if (st.empty() || st.top() < element)
+    if (i == s.size())
     {
-        st.push(element);
+        ans.push_back(temp);
         return;
     }
-    int top_element = st.top();
-    st.pop();
-    // recursive call
-    sortedInsertion(st, element);
-    st.push(top_element);
+    solve(s, i + 1, temp, ans);
+    temp.push_back(s[i]);
+    solve(s, i + 1, temp, ans);
+    temp.pop_back();
 }
-
-void sortStack(stack<int> &st)
+vector<string> generateSubsequences(string s)
 {
-    // base case
-    if (st.empty())
-    {
-        return;
-    }
-    int element = st.top();
-    st.pop();
-    // recursive call
-    sortStack(st);
-    sortedInsertion(st, element);
-}
-int main()
-{
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        stack<int> st;
-        cin >> n;
-        for (int i = 1; i <= n; i++)
-        {
-            int ele;
-            cin >> ele;
-            st.push(ele);
-        }
-        sortStack(st);
-        while (!st.empty())
-        {
-            cout << st.top() << " ";
-            st.pop();
-        }
-        cout << endl;
-    }
-    return 0;
+    string temp = "";
+    vector<string> ans;
+    solve(s, 0, temp, ans);
+    return ans;
 }
