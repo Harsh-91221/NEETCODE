@@ -1,34 +1,38 @@
-class Solution
+void solve(vector<string> &ans, string digits, int index, vector<string> &mapping, string output)
 {
-public:
-    long long calc(vector<int> &piles, int h)
+    if (index >= digits.size())
     {
-        long long n = piles.size();
-        long long totalHour = 0;
-        for (int i = 0; i < n; i++)
-        {
-            totalHour += ceil((double)piles[i] / (double)h);
-        }
-        return totalHour;
+        ans.push_back(output);
+        return;
     }
-    int minEatingSpeed(vector<int> &piles, int h)
+    int digit = digits[index] - '0';
+    string value = mapping[digit];
+    for (int i = 0; i < value.size(); i++)
     {
-        int n = piles.size();
-        long long s = 1;
-        long long e = *max_element(piles.begin(), piles.end());
-        while (s <= e)
-        {
-            long long mid = s + (e - s) / 2;
-            long long totalH = calc(piles, mid);
-            if (totalH <= h)
-            {
-                e = mid - 1;
-            }
-            else
-            {
-                s = mid + 1;
-            }
-        }
-        return s;
+        char ch = value[i];
+        output.push_back(ch);
+        solve(ans, digits, index + 1, mapping, output);
+        output.pop_back();
     }
-};
+}
+vector<string> letterCombinations(string digits)
+{
+    vector<string> ans;
+    string output = "";
+    if (digits.size() == 0)
+    {
+        return ans;
+    }
+    vector<string> mapping(10);
+    int index = 0;
+    mapping[2] = "abc";
+    mapping[3] = "def";
+    mapping[4] = "ghi";
+    mapping[5] = "jkl";
+    mapping[6] = "mno";
+    mapping[7] = "pqrs";
+    mapping[8] = "tuv";
+    mapping[9] = "wxyz";
+    solve(ans, digits, index, mapping, output);
+    return ans;
+}
