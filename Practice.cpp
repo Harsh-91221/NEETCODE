@@ -1,39 +1,28 @@
 class Solution
 {
 public:
-    int garbageCollection(vector<string> &garbage, vector<int> &travel)
+    int MOD = 1e9 + 7;
+    int rev(int n)
     {
-        int Midx = 0;
-        int Pidx = 0;
-        int Gidx = 0;
-        int time = 0;
-        int n = garbage.size();
-        for (int i = 0; i < n; i++)
+        int s = 0;
+        while (n != 0)
         {
-            for (int j = 0; j < garbage[i].size(); j++)
-            {
-                if (garbage[i][j] == 'M')
-                {
-                    Midx = i;
-                }
-                else if (garbage[i][j] == 'G')
-                {
-                    Gidx = i;
-                }
-                else
-                {
-                    Pidx = i;
-                }
-                time++;
-            }
+            int r = n % 10;
+            s = s * 10 + r;
+            n = n / 10;
         }
-        for (int i = 1; i < travel.size(); i++)
+        return s;
+    }
+    int countNicePairs(vector<int> &nums)
+    {
+        unordered_map<int, int> mp;
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++)
         {
-            travel[i] += travel[i - 1];
+            int temp = nums[i] - rev(nums[i]);
+            mp[temp]++;
+            ans = (ans + mp[temp] - 1) % MOD;
         }
-        time += Midx > 0 ? travel[Midx - 1] : 0;
-        time += Gidx > 0 ? travel[Gidx - 1] : 0;
-        time += Pidx > 0 ? travel[Pidx - 1] : 0;
-        return time;
+        return ans % MOD;
     }
 };
