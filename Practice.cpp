@@ -1,52 +1,68 @@
-class Solution
+bool isvalid(int board[][9], int row, int col, int num)
 {
-public:
-    int l, m, n;
-    vector<vector<int>> directions{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    bool find(vector<vector<char>> &board, int i, int j, string &word, int idx)
+    // Check the current row for the presence of 'num'.
+    for (int i = 0; i < 9; i++)
     {
-        if (idx >= l)
-        {
-            return true;
-        }
-        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word[idx])
+        if (board[i][col] == num)
         {
             return false;
         }
-        char temp = board[i][j];
-        board[i][j] = '$';
-        for (auto &dir : directions)
+    }
+    // Check the current column for the presence of 'num'.
+    for (int i = 0; i < 9; i++)
+    {
+        if (board[row][i] == num)
         {
-            int i_ = i + dir[0];
-            int j_ = j + dir[1];
-
-            if (find(board, i_, j_, word, idx + 1))
+            return false;
+        }
+    }
+    // Check the 3x3 subgrid for the presence of 'num'.
+    int startRow = row - row % 3;
+    int startCol = col - col % 3;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (board[i + startRow][j + startCol] == num)
             {
-                return true;
+                return false;
             }
         }
-        board[i][j] = temp;
-        return false;
     }
-    bool exist(vector<vector<char>> &board, string word)
+    return true;
+}
+bool solve(int board[][9])
+{
+    for (int i = 0; i < 9; i++)
     {
-        m = board.size();
-        n = board[0].size();
-        l = word.length();
-        if (m * n < l)
+        for (int j = 0; j < 9; j++)
         {
-            return false;
-        }
-        for (int i = 0; i < m; i++)
-        {
-            for (int j = 0; j < n; j++)
+            // If the current cell is empty (0), try placing digits from 1 to 9.
+            if (board[i][j] == 0)
             {
-                if (board[i][j] == word[0] && find(board, i, j, word, 0))
+                for (int num = 1; num <= 9; num++)
                 {
-                    return true;
+                    if (isvalid(board, i, j, num))
+                    {
+                        // If placing 'num' is valid, set it in the current cell and recursively solve.
+                        board[i][j] = num;
+                        if (solve(board))
+                        {
+                            return true; // If the Sudoku puzzle is solved, return true.
+                        }
+                        else
+                        {
+                            board[i][j] = 0; // If not solved, reset the cell and backtrack.
+                        }
+                    }
                 }
+                return false; // If no valid digit can be placed, return false.
             }
         }
-        return false;
     }
-};
+    return true; // If the entire puzzle is solved, return true.
+}
+bool sudokuSolver(int board[][9])
+{
+    return solve(board);
+}
