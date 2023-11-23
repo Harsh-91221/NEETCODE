@@ -1,42 +1,30 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution
 {
 public:
-    vector<vector<int>> levelOrder(TreeNode *root)
+    bool check(vector<int> &nums)
     {
-        queue<TreeNode *> q;
-        vector<vector<int>> result;
-        q.push(root);
-        while (!q.empty())
+        sort(nums.begin(), nums.end());
+        int d = nums[1] - nums[0];
+        for (int i = 2; i < nums.size(); i++)
         {
-            vector<int> ans;
-            int s = q.size();
-            for (int i = 0; i < s; i++)
+            if (nums[i] - nums[i - 1] != d)
             {
-                TreeNode *temp = q.front();
-                q.pop();
-                if (temp->left)
-                {
-                    q.push(temp->left);
-                }
-                if (temp->right)
-                {
-                    q.push(temp->right);
-                }
-                ans.push_back(temp->val);
+                return false;
             }
-            result.push_back(ans);
         }
-        return result;
+        return true;
+    }
+    vector<bool> checkArithmeticSubarrays(vector<int> &nums, vector<int> &l, vector<int> &r)
+    {
+        vector<bool> ans;
+        for (int i = 0; i < l.size(); i++)
+        {
+            int start = l[i];
+            int end = r[i];
+            vector<int> arr(nums.begin() + start, nums.begin() + end + 1);
+            bool isAP = check(arr);
+            ans.push_back(isAP);
+        } 
+        return ans;
     }
 };
