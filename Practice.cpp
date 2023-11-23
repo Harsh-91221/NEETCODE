@@ -1,68 +1,42 @@
-bool isvalid(int board[][9], int row, int col, int num)
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution
 {
-    // Check the current row for the presence of 'num'.
-    for (int i = 0; i < 9; i++)
+public:
+    vector<vector<int>> levelOrder(TreeNode *root)
     {
-        if (board[i][col] == num)
+        queue<TreeNode *> q;
+        vector<vector<int>> result;
+        q.push(root);
+        while (!q.empty())
         {
-            return false;
-        }
-    }
-    // Check the current column for the presence of 'num'.
-    for (int i = 0; i < 9; i++)
-    {
-        if (board[row][i] == num)
-        {
-            return false;
-        }
-    }
-    // Check the 3x3 subgrid for the presence of 'num'.
-    int startRow = row - row % 3;
-    int startCol = col - col % 3;
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            if (board[i + startRow][j + startCol] == num)
+            vector<int> ans;
+            int s = q.size();
+            for (int i = 0; i < s; i++)
             {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-bool solve(int board[][9])
-{
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            // If the current cell is empty (0), try placing digits from 1 to 9.
-            if (board[i][j] == 0)
-            {
-                for (int num = 1; num <= 9; num++)
+                TreeNode *temp = q.front();
+                q.pop();
+                if (temp->left)
                 {
-                    if (isvalid(board, i, j, num))
-                    {
-                        // If placing 'num' is valid, set it in the current cell and recursively solve.
-                        board[i][j] = num;
-                        if (solve(board))
-                        {
-                            return true; // If the Sudoku puzzle is solved, return true.
-                        }
-                        else
-                        {
-                            board[i][j] = 0; // If not solved, reset the cell and backtrack.
-                        }
-                    }
+                    q.push(temp->left);
                 }
-                return false; // If no valid digit can be placed, return false.
+                if (temp->right)
+                {
+                    q.push(temp->right);
+                }
+                ans.push_back(temp->val);
             }
+            result.push_back(ans);
         }
+        return result;
     }
-    return true; // If the entire puzzle is solved, return true.
-}
-bool sudokuSolver(int board[][9])
-{
-    return solve(board);
-}
+};
