@@ -1,30 +1,37 @@
 class Solution
 {
 public:
-    bool check(vector<int> &nums)
+    TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
     {
-        sort(nums.begin(), nums.end());
-        int d = nums[1] - nums[0];
-        for (int i = 2; i < nums.size(); i++)
+        if (root == NULL)
         {
-            if (nums[i] - nums[i - 1] != d)
-            {
-                return false;
-            }
+            return NULL;
         }
-        return true;
-    }
-    vector<bool> checkArithmeticSubarrays(vector<int> &nums, vector<int> &l, vector<int> &r)
-    {
-        vector<bool> ans;
-        for (int i = 0; i < l.size(); i++)
+        if (root->val == p->val)
         {
-            int start = l[i];
-            int end = r[i];
-            vector<int> arr(nums.begin() + start, nums.begin() + end + 1);
-            bool isAP = check(arr);
-            ans.push_back(isAP);
-        } 
-        return ans;
+            return p;
+        }
+        if (root->val == q->val)
+        {
+            return q;
+        }
+        TreeNode *leftans = lowestCommonAncestor(root->left, p, q);
+        TreeNode *rightans = lowestCommonAncestor(root->right, p, q);
+        if (leftans == NULL && rightans == NULL)
+        {
+            return NULL;
+        }
+        else if (leftans != NULL && rightans == NULL)
+        {
+            return leftans;
+        }
+        else if (leftans == NULL && rightans != NULL)
+        {
+            return rightans;
+        }
+        else
+        {
+            return root;
+        }
     }
 };
