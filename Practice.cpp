@@ -23,22 +23,23 @@ public:
         }
         return -1;
     }
-    TreeNode *solve(vector<int> &preorder, vector<int> &inorder, int &preindex, int size, int inorderstart, int inorderend)
+    TreeNode *solve(vector<int> &inorder, vector<int> &postorder, int &postindex, int size, int inorderstart, int inorderend)
     {
-        if (preindex >= size || inorderstart > inorderend)
+        if (postindex < 0 || inorderstart > inorderend)
         {
             return NULL;
         }
-        int element = preorder[preindex++];
+        int element = postorder[postindex];
+        postindex--;
         TreeNode *root = new TreeNode(element);
         int pos = find(inorder, size, element);
-        root->left = solve(preorder, inorder, preindex, size, inorderstart, pos - 1);
-        root->right = solve(preorder, inorder, preindex, size, pos + 1, inorderend);
+        root->right = solve(inorder, postorder, postindex, size, pos + 1, inorderend);
+        root->left = solve(inorder, postorder, postindex, size, inorderstart, pos - 1);
         return root;
     }
-    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
+    TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder)
     {
-        int preindex = 0;
-        return solve(preorder, inorder, preindex, inorder.size(), 0, inorder.size() - 1);
+        int postindex = postorder.size() - 1;
+        return solve(inorder, postorder, postindex, inorder.size(), 0, inorder.size() - 1);
     }
 };
