@@ -18,11 +18,14 @@ public:
     {
         if (root == NULL)
         {
-            return NULL;
+            return 0;
         }
-        int ans1 = diameterOfBinaryTree(root->left);
-        int ans2 = diameterOfBinaryTree(root->right);
-        int ans3 = maxDepth(root->left) + maxDepth(root->right);
-        return max(ans1, max(ans2, ans3));
+        // Recursively find the diameters of left and right subtrees
+        int leftDiameter = diameterOfBinaryTree(root->left);
+        int rightDiameter = diameterOfBinaryTree(root->right);
+        // Calculate the potential diameter passing through the current node
+        int throughRoot = maxDepth(root->left) + maxDepth(root->right);
+        // Return the maximum among diameters of subtrees and potential diameter through the root
+        return max(leftDiameter, max(rightDiameter, throughRoot));
     }
 };
