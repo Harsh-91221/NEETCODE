@@ -23,8 +23,10 @@ Node *build()
         return NULL;
     }
     Node *root = new Node(data);
+    // Input left subtree data
     cout << "ENTER DATA FOR LEFT PART " << data << endl;
     root->left = build();
+    // Input right subtree data
     cout << "ENTER DATA FOR RIGHT PART " << data << endl;
     root->right = build();
     return root;
