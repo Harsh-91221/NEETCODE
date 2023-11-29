@@ -1,28 +1,21 @@
 class Solution
 {
 public:
-    void countgood(TreeNode *root, int &count, int maxi)
+    int solve(TreeNode *root, int &maxi)
     {
         if (root == NULL)
         {
-            return;
+            return 0;
         }
-        if (maxi <= root->val)
-        {
-            count++;
-            maxi = root->val;
-        }
-        countgood(root->left, count, maxi);
-        countgood(root->right, count, maxi);
+        int leftsum = max(0, solve(root->left, maxi));
+        int rightsum = max(0, solve(root->right, maxi));
+        maxi = max(maxi, leftsum + rightsum + root->val);
+        return max(leftsum, rightsum) + root->val;
     }
-    int goodNodes(TreeNode *root)
+    int maxPathSum(TreeNode *root)
     {
-        if (root == NULL)
-        {
-            return NULL;
-        }
-        int count = 0;
-        countgood(root, count, INT_MIN);
-        return count;
+        int maxi = INT_MIN;
+        solve(root, maxi);
+        return maxi;
     }
 };
