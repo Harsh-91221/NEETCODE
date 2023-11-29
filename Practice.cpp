@@ -1,23 +1,28 @@
 class Solution
 {
 public:
-    void solve(TreeNode *root, vector<int> &ans, int level)
+    void countgood(TreeNode *root, int &count, int maxi)
     {
         if (root == NULL)
         {
             return;
         }
-        if (level == ans.size())
-        {                             // Check if the level matches the current size of ans
-            ans.push_back(root->val); // If yes, add the current node's data to ans
+        if (maxi <= root->val)
+        {
+            count++;
+            maxi = root->val;
         }
-        solve(root->right, ans, level + 1);
-        solve(root->left, ans, level + 1);
+        countgood(root->left, count, maxi);
+        countgood(root->right, count, maxi);
     }
-    vector<int> rightSideView(TreeNode *root)
+    int goodNodes(TreeNode *root)
     {
-        vector<int> ans;
-        solve(root, ans, 0);
-        return ans;
+        if (root == NULL)
+        {
+            return NULL;
+        }
+        int count = 0;
+        countgood(root, count, INT_MIN);
+        return count;
     }
 };
