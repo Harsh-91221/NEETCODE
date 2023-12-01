@@ -1,59 +1,29 @@
 class Solution
 {
 public:
-    int maxVal(TreeNode *root)
+    bool arrayStringsAreEqual(vector<string> &word1, vector<string> &word2)
     {
-        if (root == NULL)
+        int i = 0;
+        int j = 0;
+        int m = 0;
+        int n = 0;
+        while (i < word1.size() && j < word2.size())
         {
-            return -1;
-        }
-        while (root->right != NULL)
-        {
-            root = root->right;
-        }
-        return root->val;
-    }
-    TreeNode *deleteNode(TreeNode *root, int key)
-    {
-        if (root == NULL)
-        {
-            return NULL;
-        }
-        if (root->val == key)
-        {
-            if (root->left == NULL && root->right == NULL)
+            if (word1[i][m++] != word2[j][n++])
             {
-                delete root;
-                return NULL;
+                return false;
             }
-            else if (root->left != NULL && root->right == NULL)
+            if (m >= word1[i].size())
             {
-                TreeNode *child = root->left;
-                delete root;
-                return child;
+                i++;
+                m = 0;
             }
-            else if (root->left == NULL && root->right != NULL)
+            if (n >= word2[j].size())
             {
-                TreeNode *child = root->right;
-                delete root;
-                return child;
-            }
-            else
-            {
-                int inorderPre = maxVal(root->left);
-                root->val = inorderPre;
-                root->left = deleteNode(root->left, inorderPre);
-                return root;
+                j++;
+                n = 0;
             }
         }
-        else if (root->val > key)
-        {
-            root->left = deleteNode(root->left, key);
-        }
-        else if (root->val < key)
-        {
-            root->right = deleteNode(root->right, key);
-        }
-        return root;
+        return i == word1.size() && j == word2.size();
     }
 };
