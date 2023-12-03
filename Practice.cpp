@@ -1,38 +1,31 @@
 class Solution
 {
 public:
-    void inorderTraverse(TreeNode *root, vector<int> &inorder)
+    int minimumAddedCoins(vector<int> &coins, int target)
     {
-        if (root == NULL)
+        long long int n = coins.size();
+        long long int pre = 0;
+        sort(coins.begin(), coins.end());
+        long long int i = 0;
+        long long int count = 0;
+        for (int j = 1; j <= target;)
         {
-            return;
-        }
-        inorderTraverse(root->left, inorder);
-        inorder.push_back(root->val);
-        inorderTraverse(root->right, inorder);
-    }
-    bool findTarget(TreeNode *root, int k)
-    {
-        vector<int> inorder;
-        inorderTraverse(root, inorder);
-        int s = 0;
-        int e = inorder.size() - 1;
-        while (s < e)
-        {
-            int sum = inorder[s] + inorder[e];
-            if (sum == k)
+            if (i < n && coins[i] <= j)
             {
-                return true;
-            }
-            else if (sum < k)
-            {
-                s++;
+                pre += coins[i];
+                i++;
             }
             else
             {
-                e--;
+                if (pre >= j)
+                {
+                    continue;
+                }
+                pre += j;
+                count++;
             }
+            j = pre + 1;
         }
-        return false;
+        return count;
     }
 };
