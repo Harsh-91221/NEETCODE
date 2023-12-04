@@ -1,31 +1,21 @@
 class Solution
 {
 public:
-    int minimumAddedCoins(vector<int> &coins, int target)
+    string largestGoodInteger(string num)
     {
-        long long int n = coins.size();
-        long long int pre = 0;
-        sort(coins.begin(), coins.end());
-        long long int i = 0;
-        long long int count = 0;
-        for (int j = 1; j <= target;)
+        string ans;
+        int n = num.size();
+        for (int i = 0; i < n - 2; i++)
         {
-            if (i < n && coins[i] <= j)
+            string temp;
+            if (num[i] == num[i + 1] && num[i + 1] == num[i + 2])
             {
-                pre += coins[i];
-                i++;
+                temp.push_back(num[i]);
+                temp.push_back(num[i + 1]);
+                temp.push_back(num[i + 2]);
+                ans = max(ans, temp);
             }
-            else
-            {
-                if (pre >= j)
-                {
-                    continue;
-                }
-                pre += j;
-                count++;
-            }
-            j = pre + 1;
         }
-        return count;
+        return ans;
     }
 };
