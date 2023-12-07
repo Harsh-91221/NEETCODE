@@ -1,13 +1,19 @@
 class Solution
 {
 public:
-    int totalMoney(int n)
+    string largestOddNumber(string num)
     {
-        int ans = 0;
-        for (int i = 0; i < n; i++)
+        for (int i = num.size() - 1; i >= 0; i--)
         {
-            ans += (i / 7 + 1) + (i % 7);
+            if (num[i] % 2 == 0)
+            {
+                num.pop_back();
+            }
+            else
+            {
+                break;
+            }
         }
-        return ans;
+        return num;
     }
 };
