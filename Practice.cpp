@@ -1,20 +1,22 @@
 class Solution
 {
 public:
-    string tree2str(TreeNode *root)
+    vector<int> nextGreaterElements(vector<int> &nums)
     {
-        string ans = to_string(root->val);
-        if (root->left)
+        int n = nums.size();
+        vector<int> ans(n, -1);
+        stack<int> s;
+        for (int i = 0; i < n * 2; i++)
         {
-            ans += "(" + tree2str(root->left) + ")";
-        }
-        if (root->right)
-        {
-            if (!root->left)
+            while (!s.empty() && nums[s.top()] < nums[i % n])
             {
-                ans += "()";
+                ans[s.top()] = nums[i % n];
+                s.pop();
             }
-            ans += "(" + tree2str(root->right) + ")";
+            if (i < n)
+            {
+                s.push(i);
+            }
         }
         return ans;
     }
