@@ -1,15 +1,21 @@
 class Solution
 {
 public:
-    string largestOddNumber(string num)
+    string tree2str(TreeNode *root)
     {
-        for (int i = num.size() - 1; i >= 0; i--)
+        string ans = to_string(root->val);
+        if (root->left)
         {
-            if (num[i] % 2 != 0)
-            {
-                return num.substr(0, i + 1);
-            }
+            ans += "(" + tree2str(root->left) + ")";
         }
-        return "";
+        if (root->right)
+        {
+            if (!root->left)
+            {
+                ans += "()";
+            }
+            ans += "(" + tree2str(root->right) + ")";
+        }
+        return ans;
     }
 };
