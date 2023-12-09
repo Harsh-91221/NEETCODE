@@ -1,23 +1,24 @@
 class Solution
 {
 public:
-    vector<int> nextGreaterElements(vector<int> &nums)
+    int maxSubarrayLength(vector<int> &nums, int k)
     {
-        int n = nums.size();
-        vector<int> ans(n, -1);
-        stack<int> s;
-        for (int i = 0; i < n * 2; i++)
+        int i = 0, j = 0;
+        unordered_map<int, int> mp;
+        int maxlen = 0;
+        for (int j = 0; j < nums.size(); j++)
         {
-            while (!s.empty() && nums[s.top()] < nums[i % n])
+            mp[nums[j]]++;
+            if (mp[nums[j]] > k)
             {
-                ans[s.top()] = nums[i % n];
-                s.pop();
+                while (j >= i && mp[nums[j]] > k)
+                {
+                    mp[nums[i]]--;
+                    i++;
+                }
             }
-            if (i < n)
-            {
-                s.push(i);
-            }
+            maxlen = max(maxlen, j - i + 1);
         }
-        return ans;
+        return maxlen;
     }
 };
