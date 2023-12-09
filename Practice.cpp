@@ -1,24 +1,27 @@
 class Solution
 {
 public:
-    int maxSubarrayLength(vector<int> &nums, int k)
+    string countAndSay(int n)
     {
-        int i = 0, j = 0;
-        unordered_map<int, int> mp;
-        int maxlen = 0;
-        for (int j = 0; j < nums.size(); j++)
+        if (n == 1)
         {
-            mp[nums[j]]++;
-            if (mp[nums[j]] > k)
-            {
-                while (j >= i && mp[nums[j]] > k)
-                {
-                    mp[nums[i]]--;
-                    i++;
-                }
-            }
-            maxlen = max(maxlen, j - i + 1);
+            return "1";
         }
-        return maxlen;
+        string previous = countAndSay(n - 1);
+        string ans = "";
+        int len = previous.size();
+        int i = 0;
+        while (i < len)
+        {
+            int count = 1;
+            while (i + 1 < len && previous[i] == previous[i + 1])
+            {
+                count++;
+                i++;
+            }
+            ans += to_string(count) + previous[i];
+            i++;
+        }
+        return ans;
     }
 };
