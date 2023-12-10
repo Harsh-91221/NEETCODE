@@ -1,27 +1,33 @@
 class Solution
 {
 public:
-    string countAndSay(int n)
+    long long countSubarrays(vector<int> &arr, int k)
     {
-        if (n == 1)
+        long long n = arr.size();
+        long long maxi = *max_element(arr.begin(), arr.end());
+        long long i = 0, j = 0;
+        long long count = 0, result = 0;
+        while (j < n)
         {
-            return "1";
-        }
-        string previous = countAndSay(n - 1);
-        string ans = "";
-        int len = previous.size();
-        int i = 0;
-        while (i < len)
-        {
-            int count = 1;
-            while (i + 1 < len && previous[i] == previous[i + 1])
+            if (arr[j] == maxi)
             {
                 count++;
-                i++;
             }
-            ans += to_string(count) + previous[i];
-            i++;
+            if (count >= k)
+            {
+                while (count >= k)
+                {
+                    result += n - j;
+                    if (arr[i] == maxi)
+                    {
+                        count--;
+                    }
+                    i++;
+                }
+            }
+            j++;
         }
-        return ans;
+        return result;
     }
+     
 };
