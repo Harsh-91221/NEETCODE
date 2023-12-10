@@ -1,33 +1,53 @@
 class Solution
 {
 public:
-    long long countSubarrays(vector<int> &arr, int k)
+    int calculate(string s)
     {
-        long long n = arr.size();
-        long long maxi = *max_element(arr.begin(), arr.end());
-        long long i = 0, j = 0;
-        long long count = 0, result = 0;
-        while (j < n)
+        stack<int> st;
+        if (s.size() == 0)
         {
-            if (arr[j] == maxi)
-            {
-                count++;
-            }
-            if (count >= k)
-            {
-                while (count >= k)
-                {
-                    result += n - j;
-                    if (arr[i] == maxi)
-                    {
-                        count--;
-                    }
-                    i++;
-                }
-            }
-            j++;
+            return 0;
         }
-        return result;
+        int curr = 0;
+        char op = '+';
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (isdigit(s[i]))
+            {
+                curr = curr * 10 + (s[i] - '0');
+            }
+            if (!isdigit(s[i]) && !isspace(s[i]) || i == s.size() - 1)
+            {
+                if (op == '+')
+                {
+                    st.push(curr);
+                }
+                else if (op == '-')
+                {
+                    st.push(-curr);
+                }
+                else if (op == '*')
+                {
+                    int temp = st.top();
+                    st.pop();
+                    st.push(temp * curr);
+                }
+                else if (op == '/')
+                {
+                    int temp = st.top();
+                    st.pop();
+                    st.push(temp / curr);
+                }
+                op = s[i];
+                curr = 0;
+            }
+        }
+        int ans = 0;
+        while (!st.empty())
+        {
+            ans += st.top();
+            st.pop();
+        }
+        return ans;
     }
-     
 };
