@@ -1,28 +1,28 @@
 class Solution
 {
 public:
-    int canCompleteCircuit(vector<int> &gas, vector<int> &cost)
+    void solve(vector<int> nums, int i, vector<vector<int>> &ans)
     {
-        int deficit = 0;
-        int start = 0;
-        int balance = 0;
-        for (int i = 0; i < gas.size(); i++)
+        if (i >= nums.size())
         {
-            balance += gas[i] - cost[i];
-            if (balance < 0)
+            ans.push_back(nums);
+            return;
+        }
+        for (int j = i; j < nums.size(); j++)
+        {
+            if (i != j && nums[i] == nums[j])
             {
-                deficit += balance;
-                start = i + 1;
-                balance = 0;
+                continue;
             }
+            swap(nums[i], nums[j]);
+            solve(nums, i + 1, ans);
         }
-        if (deficit + balance >= 0)
-        {
-            return start;
-        }
-        else
-        {
-            return -1;
-        }
+    }
+    vector<vector<int>> permuteUnique(vector<int> &nums)
+    {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        solve(nums, 0, ans);
+        return ans;
     }
 };
