@@ -1,28 +1,29 @@
-class Solution
-{
-public:
-    void solve(vector<int> nums, int i, vector<vector<int>> &ans)
-    {
-        if (i >= nums.size())
+sort(nums.begin(), nums.end());
+        int maxSum = 0;
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++)
         {
-            ans.push_back(nums);
-            return;
-        }
-        for (int j = i; j < nums.size(); j++)
-        {
-            if (i != j && nums[i] == nums[j])
+            if (maxSum >= n)
             {
-                continue;
+                return ans;
             }
-            swap(nums[i], nums[j]);
-            solve(nums, i + 1, ans);
+            while (maxSum + 1 < nums[i])
+            {
+                ans++;
+                maxSum += maxSum + 1;
+                if (maxSum >= n)
+                {
+                    return ans;
+                }
+            }
+            if (maxSum + 1 >= nums[i])
+            {
+                maxSum += nums[i];
+            }
         }
-    }
-    vector<vector<int>> permuteUnique(vector<int> &nums)
-    {
-        sort(nums.begin(), nums.end());
-        vector<vector<int>> ans;
-        solve(nums, 0, ans);
+        while (maxSum < n)
+        {
+            ans++;
+            maxSum += maxSum + 1;
+        }
         return ans;
-    }
-};
