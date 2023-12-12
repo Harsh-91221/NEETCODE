@@ -1,17 +1,17 @@
 class Solution
 {
 public:
-    int findSpecialInteger(vector<int> &arr)
+    int maxProduct(vector<int> &nums)
     {
-        int n = arr.size();
-        int quater = n / 4;
-        for (int i = 0; i < n - quater; i++)
+        int maxi = INT_MIN;
+        for (int i = 0; i < nums.size(); i++)
         {
-            if (arr[i] == arr[i + quater])
+            for (int j = i + 1; j < nums.size(); j++)
             {
-                return arr[i];
+                int ans = (nums[i] - 1) * (nums[j] - 1);
+                maxi = max(maxi, ans);
             }
         }
-        return 0;
+        return maxi;
     }
 };
