@@ -1,31 +1,34 @@
 class Solution
 {
 public:
-    int numSpecial(vector<vector<int>> &mat)
+    int firstMissingPositive(vector<int> &nums)
     {
-        int m = mat.size();
-        int n = mat[0].size();
-        vector<int> rowSum(m);
-        vector<int> colSum(n);
-        for (int i = 0; i < m; i++)
+        int n = nums.size();
+        for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n; j++)
+            if (nums[i] <= 0)
             {
-                rowSum[i] += mat[i][j];
-                colSum[j] += mat[i][j];
+                nums[i] = n + 1;
             }
         }
-        int count = 0;
-        for (int i = 0; i < m; i++)
+        for (int i = 0; i < n; i++)
         {
-            for (int j = 0; j < n; j++)
+            int index = abs(nums[i]) - 1;
+            if (index < n)
             {
-                if (mat[i][j] == 1 && rowSum[i] == 1 && colSum[j] == 1)
+                if (nums[index] > 0)
                 {
-                    count++;
+                    nums[index] *= -1;
                 }
             }
         }
-        return count;
+        for (int i = 0; i < n; i++)
+        {
+            if (nums[i] > 0)
+            {
+                return i + 1;
+            }
+        }
+        return n + 1;
     }
 };
