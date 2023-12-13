@@ -1,29 +1,31 @@
-sort(nums.begin(), nums.end());
-        int maxSum = 0;
-        int ans = 0;
-        for (int i = 0; i < nums.size(); i++)
+class Solution
+{
+public:
+    int numSpecial(vector<vector<int>> &mat)
+    {
+        int m = mat.size();
+        int n = mat[0].size();
+        vector<int> rowSum(m);
+        vector<int> colSum(n);
+        for (int i = 0; i < m; i++)
         {
-            if (maxSum >= n)
+            for (int j = 0; j < n; j++)
             {
-                return ans;
+                rowSum[i] += mat[i][j];
+                colSum[j] += mat[i][j];
             }
-            while (maxSum + 1 < nums[i])
+        }
+        int count = 0;
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
             {
-                ans++;
-                maxSum += maxSum + 1;
-                if (maxSum >= n)
+                if (mat[i][j] == 1 && rowSum[i] == 1 && colSum[j] == 1)
                 {
-                    return ans;
+                    count++;
                 }
             }
-            if (maxSum + 1 >= nums[i])
-            {
-                maxSum += nums[i];
-            }
         }
-        while (maxSum < n)
-        {
-            ans++;
-            maxSum += maxSum + 1;
-        }
-        return ans;
+        return count;
+    }
+};
