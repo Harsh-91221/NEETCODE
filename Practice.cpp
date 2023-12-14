@@ -1,80 +1,32 @@
-class WordDictionary
+class Solution
 {
 public:
-    struct TrieNode
+    bool check(string &a, string &b, string &order)
     {
-        bool isEndofWord;
-        TrieNode *children[26];
-    };
-
-    TrieNode *getNode()
-    {
-        TrieNode *newNode = new TrieNode();
-        newNode->isEndofWord = false;
-        for (int i = 0; i < 26; i++)
+        int i = 0;
+        while (i < a.size() && a[i] == b[i])
         {
-            newNode->children[i] = nullptr;
+            i++;
         }
-        return newNode;
-    }
-
-    TrieNode *root;
-
-    WordDictionary()
-    {
-        root = getNode();
-    }
-
-    void addWord(string word)
-    {
-        TrieNode *crawler = root;
-        for (char ch : word)
+        if (a.size() == i)
         {
-            int idx = ch - 'a';
-            if (crawler->children[idx] == nullptr)
-            {
-                crawler->children[idx] = getNode();
-            }
-            crawler = crawler->children[idx];
+            return true;
         }
-        crawler->isEndofWord = true;
-    }
-
-    bool searchUtil(TrieNode *node, string word, int index)
-    {
-        if (index == word.length())
+        else if (b.size() == i)
         {
-            return node->isEndofWord;
-        }
-
-        char ch = word[index];
-        if (ch == '.')
-        {
-            for (int i = 0; i < 26; i++)
-            {
-                if (node->children[i] != nullptr && searchUtil(node->children[i], word, index + 1))
-                {
-                    return true;
-                }
-            }
             return false;
         }
-        else
+        return (order.find(a[i]) < order.find(b[i]));
+    }
+    bool isAlienSorted(vector<string> &words, string order)
+    {
+        for (int i = 0; i < words.size() - 1; i++)
         {
-            int idx = ch - 'a';
-            if (node->children[idx] != nullptr)
-            {
-                return searchUtil(node->children[idx], word, index + 1);
-            }
-            else
+            if (!check(words[i], words[i + 1], order))
             {
                 return false;
             }
         }
-    }
-
-    bool search(string word)
-    {
-        return searchUtil(root, word, 0);
+        return true;
     }
 };
