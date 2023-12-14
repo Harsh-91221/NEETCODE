@@ -1,34 +1,38 @@
 class Solution
 {
 public:
-    int firstMissingPositive(vector<int> &nums)
+    vector<vector<int>> onesMinusZeros(vector<vector<int>> &grid)
     {
-        int n = nums.size();
-        for (int i = 0; i < n; i++)
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<int> oneRow(m, 0);
+        vector<int> oneCol(n, 0);
+        vector<int> zeroRow(m, 0);
+        vector<int> zeroCol(n, 0);
+        vector<vector<int>> diff(m, vector<int>(n, 0));
+        for (int i = 0; i < m; i++)
         {
-            if (nums[i] <= 0)
+            for (int j = 0; j < n; j++)
             {
-                nums[i] = n + 1;
-            }
-        }
-        for (int i = 0; i < n; i++)
-        {
-            int index = abs(nums[i]) - 1;
-            if (index < n)
-            {
-                if (nums[index] > 0)
+                if (grid[i][j] == 1)
                 {
-                    nums[index] *= -1;
+                    oneRow[i]++;
+                    oneCol[j]++;
+                }
+                else if (grid[i][j] == 0)
+                {
+                    zeroRow[i]++;
+                    zeroCol[j]++;
                 }
             }
         }
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < m; i++)
         {
-            if (nums[i] > 0)
+            for (int j = 0; j < n; j++)
             {
-                return i + 1;
+                diff[i][j] = (oneRow[i] + oneCol[j]) - zeroRow[i] - zeroCol[j];
             }
         }
-        return n + 1;
+        return diff;
     }
 };
