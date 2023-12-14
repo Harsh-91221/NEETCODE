@@ -1,38 +1,80 @@
-class Solution
+class WordDictionary
 {
 public:
-    vector<vector<int>> onesMinusZeros(vector<vector<int>> &grid)
+    struct TrieNode
     {
-        int m = grid.size();
-        int n = grid[0].size();
-        vector<int> oneRow(m, 0);
-        vector<int> oneCol(n, 0);
-        vector<int> zeroRow(m, 0);
-        vector<int> zeroCol(n, 0);
-        vector<vector<int>> diff(m, vector<int>(n, 0));
-        for (int i = 0; i < m; i++)
+        bool isEndofWord;
+        TrieNode *children[26];
+    };
+
+    TrieNode *getNode()
+    {
+        TrieNode *newNode = new TrieNode();
+        newNode->isEndofWord = false;
+        for (int i = 0; i < 26; i++)
         {
-            for (int j = 0; j < n; j++)
+            newNode->children[i] = nullptr;
+        }
+        return newNode;
+    }
+
+    TrieNode *root;
+
+    WordDictionary()
+    {
+        root = getNode();
+    }
+
+    void addWord(string word)
+    {
+        TrieNode *crawler = root;
+        for (char ch : word)
+        {
+            int idx = ch - 'a';
+            if (crawler->children[idx] == nullptr)
             {
-                if (grid[i][j] == 1)
+                crawler->children[idx] = getNode();
+            }
+            crawler = crawler->children[idx];
+        }
+        crawler->isEndofWord = true;
+    }
+
+    bool searchUtil(TrieNode *node, string word, int index)
+    {
+        if (index == word.length())
+        {
+            return node->isEndofWord;
+        }
+
+        char ch = word[index];
+        if (ch == '.')
+        {
+            for (int i = 0; i < 26; i++)
+            {
+                if (node->children[i] != nullptr && searchUtil(node->children[i], word, index + 1))
                 {
-                    oneRow[i]++;
-                    oneCol[j]++;
-                }
-                else if (grid[i][j] == 0)
-                {
-                    zeroRow[i]++;
-                    zeroCol[j]++;
+                    return true;
                 }
             }
+            return false;
         }
-        for (int i = 0; i < m; i++)
+        else
         {
-            for (int j = 0; j < n; j++)
+            int idx = ch - 'a';
+            if (node->children[idx] != nullptr)
             {
-                diff[i][j] = (oneRow[i] + oneCol[j]) - zeroRow[i] - zeroCol[j];
+                return searchUtil(node->children[idx], word, index + 1);
+            }
+            else
+            {
+                return false;
             }
         }
-        return diff;
+    }
+
+    bool search(string word)
+    {
+        return searchUtil(root, word, 0);
     }
 };
