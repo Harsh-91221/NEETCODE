@@ -1,32 +1,25 @@
 class Solution
 {
 public:
-    bool check(string &a, string &b, string &order)
+    int strStr(string haystack, string needle)
     {
-        int i = 0;
-        while (i < a.size() && a[i] == b[i])
+        int n = haystack.size();
+        int m = needle.size();
+        for (int i = 0; i <= n - m; i++)
         {
-            i++;
-        }
-        if (a.size() == i)
-        {
-            return true;
-        }
-        else if (b.size() == i)
-        {
-            return false;
-        }
-        return (order.find(a[i]) < order.find(b[i]));
-    }
-    bool isAlienSorted(vector<string> &words, string order)
-    {
-        for (int i = 0; i < words.size() - 1; i++)
-        {
-            if (!check(words[i], words[i + 1], order))
+            int j;
+            for (j = 0; j < m; j++)
             {
-                return false;
+                if (haystack[i + j] != needle[j])
+                {
+                    break;
+                }
+            }
+            if (j == m)
+            {
+                return i;
             }
         }
-        return true;
+        return -1;
     }
 };
