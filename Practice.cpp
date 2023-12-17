@@ -1,36 +1,27 @@
 class Solution
 {
 public:
-    bool isPalindrome(int num)
-    {
-        int temp = num, reversed = 0;
-        while (temp > 0)
-        {
-            int digit = temp % 10;
-            reversed = reversed * 10 + digit;
-            temp /= 10;
-        }
-        return num == reversed;
-    }
-
-    long long minimumCost(vector<int> &nums)
+    vector<vector<int>> divideArray(vector<int> &nums, int k)
     {
         int n = nums.size();
-        long long minCost = LLONG_MAX;
-
-        for (int x = 1; x <= 100000; ++x)
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> a;
+        if (n % 3 != 0)
         {
-            if (isPalindrome(x))
+            return {};
+        }
+        for (int i = 0; i < n; i += 3)
+        {
+            if (i + 2 < n && nums[i + 2] - nums[i] <= k)
             {
-                long long cost = 0;
-                for (int i = 0; i < n; ++i)
-                {
-                    cost += abs(nums[i] - x);
-                }
-                minCost = min(minCost, cost);
+                a.push_back({nums[i], nums[i + 1], nums[i + 2]});
+            }
+            else
+            {
+                a.clear();
+                break;
             }
         }
-
-        return minCost;
+        return a;
     }
 };
