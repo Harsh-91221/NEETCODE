@@ -1,27 +1,10 @@
 class Solution
 {
 public:
-    vector<vector<int>> divideArray(vector<int> &nums, int k)
+    int maxProductDifference(vector<int> &nums)
     {
         int n = nums.size();
         sort(nums.begin(), nums.end());
-        vector<vector<int>> a;
-        if (n % 3 != 0)
-        {
-            return {};
-        }
-        for (int i = 0; i < n; i += 3)
-        {
-            if (i + 2 < n && nums[i + 2] - nums[i] <= k)
-            {
-                a.push_back({nums[i], nums[i + 1], nums[i + 2]});
-            }
-            else
-            {
-                a.clear();
-                break;
-            }
-        }
-        return a;
+        return (nums[n - 1] * nums[n - 2]) - (nums[0] * nums[1]);
     }
 };
