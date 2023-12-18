@@ -1,10 +1,22 @@
 class Solution
 {
 public:
-    int maxProductDifference(vector<int> &nums)
+    int findLengthOfLCIS(vector<int> &nums)
     {
-        int n = nums.size();
-        sort(nums.begin(), nums.end());
-        return (nums[n - 1] * nums[n - 2]) - (nums[0] * nums[1]);
+        int maxi = 1;
+        int count = 1;
+        for (int i = 1; i < nums.size(); i++)
+        {
+            if (nums[i - 1] >= nums[i])
+            {
+                count = 1;
+            }
+            else
+            {
+                count++;
+            }
+            maxi = max(maxi, count);
+        }
+        return maxi;
     }
 };
