@@ -1,32 +1,13 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution
 {
 public:
-    ListNode *insertionSortList(ListNode *head)
+    int minTimeToVisitAllPoints(vector<vector<int>> &points)
     {
-        ListNode *curr = head;
-        ListNode *temp = new ListNode(0);
-        while (curr != NULL)
+        int ans = 0;
+        for (int i = 1; i < points.size(); i++)
         {
-            ListNode *forward = curr->next;
-            ListNode *tempHead = temp;
-            while (tempHead->next != NULL && tempHead->next->val < curr->val)
-            {
-                tempHead = tempHead->next;
-            }
-            curr->next = tempHead->next;
-            tempHead->next = curr;
-            curr = forward;
+            ans += max(abs(points[i][1] - points[i - 1][1]), abs(points[i][0] - points[i - 1][0]));
         }
-        return temp->next;
+        return ans;
     }
 };
