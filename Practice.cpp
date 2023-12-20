@@ -1,13 +1,25 @@
 class Solution
 {
 public:
-    int minTimeToVisitAllPoints(vector<vector<int>> &points)
+    int buyChoco(vector<int> &prices, int money)
     {
-        int ans = 0;
-        for (int i = 1; i < points.size(); i++)
+        int min1 = INT_MAX, min2 = INT_MAX;
+        for (int i = 0; i < prices.size(); i++)
         {
-            ans += max(abs(points[i][1] - points[i - 1][1]), abs(points[i][0] - points[i - 1][0]));
+            if (min1 > prices[i])
+            {
+                min2 = min1;
+                min1 = prices[i];
+            }
+            else if (min2 > prices[i])
+            {
+                min2 = prices[i];
+            }
         }
-        return ans;
+        if ((min1 + min2) <= money)
+        {
+            return money - (min1 + min2);
+        }
+        return money;
     }
 };
