@@ -1,25 +1,15 @@
 class Solution
 {
 public:
-    int buyChoco(vector<int> &prices, int money)
+    int maxWidthOfVerticalArea(vector<vector<int>> &points)
     {
-        int min1 = INT_MAX, min2 = INT_MAX;
-        for (int i = 0; i < prices.size(); i++)
+        sort(points.begin(), points.end());
+        int max_width = 0;
+        for (int i = 1; i < points.size(); i++)
         {
-            if (min1 > prices[i])
-            {
-                min2 = min1;
-                min1 = prices[i];
-            }
-            else if (min2 > prices[i])
-            {
-                min2 = prices[i];
-            }
+            int width = points[i][0] - points[i - 1][0];
+            max_width = max(max_width, width);
         }
-        if ((min1 + min2) <= money)
-        {
-            return money - (min1 + min2);
-        }
-        return money;
+        return max_width;
     }
 };
