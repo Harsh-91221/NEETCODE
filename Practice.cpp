@@ -1,18 +1,18 @@
 class Solution
 {
 public:
-    int largestAltitude(vector<int> &gain)
+    vector<vector<int>> transpose(vector<vector<int>> &matrix)
     {
-        int sum = 0;
-        int alt = 0;
-        for (int i = 0; i < gain.size(); i++)
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<vector<int>> ans(n, vector<int>(m, 0));
+        for (int i = 0; i < n; i++)
         {
-            sum += gain[i];
-            if (sum > alt)
+            for (int j = 0; j < m; j++)
             {
-                alt = sum;
+                ans[i][j] = matrix[j][i];
             }
         }
-        return alt;
+        return ans;
     }
 };
