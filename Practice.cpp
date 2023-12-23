@@ -1,18 +1,35 @@
 class Solution
 {
 public:
-    vector<vector<int>> transpose(vector<vector<int>> &matrix)
+    bool isPathCrossing(string path)
     {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        vector<vector<int>> ans(n, vector<int>(m, 0));
-        for (int i = 0; i < n; i++)
+        set<pair<int, int>> s;
+        int x = 0, y = 0;
+        s.insert({0, 0});
+        for (auto a : path)
         {
-            for (int j = 0; j < m; j++)
+            if (a == 'N')
             {
-                ans[i][j] = matrix[j][i];
+                y++;
             }
+            else if (a == 'S')
+            {
+                y--;
+            }
+            else if (a == 'E')
+            {
+                x++;
+            }
+            else
+            {
+                x--;
+            }
+            if (s.find({x, y}) != s.end())
+            {
+                return true;
+            }
+            s.insert({x, y});
         }
-        return ans;
+        return false;
     }
 };
