@@ -1,39 +1,34 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
-using namespace std;
-long long largestPerimeter(vector<int> &nums)
+class Solution
 {
-    long long i = 0;
-    int n = nums.size();
-    sort(nums.begin(), nums.end());
-    for (i = n - 1; i >= 0; i--)
+public:
+    int minOperations(string s)
     {
-        long long sum = 0;
-        for (int j = i - 1; j >= 0; j--)
+        int start1 = 0, start0 = 0;
+        for (int i = 0; i < s.size(); i++)
         {
-            sum += nums[j];
+            if (i % 2 == 0)
+            {
+                if (s[i] == '0')
+                {
+                    start1++;
+                }
+                else
+                {
+                    start0++;
+                }
+            }
+            else
+            {
+                if (s[i] == '1')
+                {
+                    start1++;
+                }
+                else
+                {
+                    start0++;
+                }
+            }
         }
-        if (nums[i] < sum)
-        {
-            break;
-        }
+        return min(start1, start0);
     }
-    if (i < 2)
-    {
-        return -1;
-    }
-    long long ans = 0;
-    for (int k = 0; k <= i; k++)
-    {
-        ans += nums[k];
-    }
-    return ans;
-}
-int main()
-{
-    vector<int> input = {1, 12, 1, 2, 5, 50, 3};
-    long long result = largestPerimeter(input);
-    cout << "Largest perimeter: " << result << endl;
-    return 0;
-}
+};
