@@ -1,34 +1,34 @@
 class Solution
 {
 public:
-    int minOperations(string s)
+    int solve(string &s, int i, int &n, vector<int> &dp)
     {
-        int start1 = 0, start0 = 0;
-        for (int i = 0; i < s.size(); i++)
+        if (i == n)
         {
-            if (i % 2 == 0)
+            return 1;
+        }
+        if (s[i] == '0')
+        {
+            return 0;
+        }
+        if (dp[i] != -1)
+        {
+            return dp[i];
+        }
+        int result = solve(s, i + 1, n, dp);
+        if (i + 1 < n)
+        {
+            if (s[i] == '1' || (s[i] == '2' && s[i + 1] <= '6'))
             {
-                if (s[i] == '0')
-                {
-                    start1++;
-                }
-                else
-                {
-                    start0++;
-                }
-            }
-            else
-            {
-                if (s[i] == '1')
-                {
-                    start1++;
-                }
-                else
-                {
-                    start0++;
-                }
+                result += solve(s, i + 2, n, dp);
             }
         }
-        return min(start1, start0);
+        return dp[i] = result;
+    }
+    int numDecodings(string s)
+    {
+        int n = s.size();
+        vector<int> dp(n + 1, -1);
+        return solve(s, 0, n, dp);
     }
 };
