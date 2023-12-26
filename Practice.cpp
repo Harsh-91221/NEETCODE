@@ -1,34 +1,44 @@
 class Solution
 {
 public:
-    int solve(string &s, int i, int &n, vector<int> &dp)
+    int MOD = 1000000007;
+    int solve(int n, int k, int target, vector<vector<int>> &dp)
     {
-        if (i == n)
-        {
-            return 1;
-        }
-        if (s[i] == '0')
+        int ans = 0;
+        if (n < 0)
         {
             return 0;
         }
-        if (dp[i] != -1)
+        if (n == 0 && target == 0)
         {
-            return dp[i];
+            return 1;
         }
-        int result = solve(s, i + 1, n, dp);
-        if (i + 1 < n)
+        if (n != 0 && target == 0)
         {
-            if (s[i] == '1' || (s[i] == '2' && s[i + 1] <= '6'))
+            return 0;
+        }
+        if (n == 0 && target != 0)
+        {
+            return 0;
+        }
+        if (dp[n][target] != -1)
+        {
+            return dp[n][target];
+        }
+        for (int i = 1; i <= k; i++)
+        {
+            int recans = 0;
+            if (target - i >= 0)
             {
-                result += solve(s, i + 2, n, dp);
+                ans = (ans % MOD + solve(n - 1, k, target - i, dp) % MOD) % MOD;
             }
         }
-        return dp[i] = result;
+        dp[n][target] = ans;
+        return dp[n][target];
     }
-    int numDecodings(string s)
+    int numRollsToTarget(int n, int k, int target)
     {
-        int n = s.size();
-        vector<int> dp(n + 1, -1);
-        return solve(s, 0, n, dp);
+        vector<vector<int>> dp(n + 1, vector<int>(target + 1, -1));
+        return solve(n, k, target, dp);
     }
 };
