@@ -1,44 +1,18 @@
 class Solution
 {
 public:
-    int MOD = 1000000007;
-    int solve(int n, int k, int target, vector<vector<int>> &dp)
+    int minCost(string colors, vector<int> &neededTime)
     {
         int ans = 0;
-        if (n < 0)
+        int n = colors.size();
+        for (int i = 1; i < n; i++)
         {
-            return 0;
-        }
-        if (n == 0 && target == 0)
-        {
-            return 1;
-        }
-        if (n != 0 && target == 0)
-        {
-            return 0;
-        }
-        if (n == 0 && target != 0)
-        {
-            return 0;
-        }
-        if (dp[n][target] != -1)
-        {
-            return dp[n][target];
-        }
-        for (int i = 1; i <= k; i++)
-        {
-            int recans = 0;
-            if (target - i >= 0)
+            if (colors[i] == colors[i - 1])
             {
-                ans = (ans % MOD + solve(n - 1, k, target - i, dp) % MOD) % MOD;
+                ans += min(neededTime[i], neededTime[i - 1]);
+                neededTime[i] = max(neededTime[i], neededTime[i - 1]);
             }
         }
-        dp[n][target] = ans;
-        return dp[n][target];
-    }
-    int numRollsToTarget(int n, int k, int target)
-    {
-        vector<vector<int>> dp(n + 1, vector<int>(target + 1, -1));
-        return solve(n, k, target, dp);
+        return ans;
     }
 };
