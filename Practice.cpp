@@ -1,43 +1,32 @@
-int dp[101][27][101][101];
 class Solution
 {
 public:
-    int n;
-    int solve(string &s, int i, int prevChar, int freq, int k)
+    int minDifficulty(vector<int> &jobDifficulty, int d)
     {
-        if (k < 0)
+        int n = jobDifficulty.size();
+        if (n < d)
         {
-            return INT_MAX;
+            return -1;
         }
-        if (i >= n)
+        vector<vector<int>> dp(n, vector<int>(d + 1, -1));
+        for (int i = 0; i < n; i++)
         {
-            return 0;
+            dp[i][1] = *max_element(jobDifficulty.begin() + i, jobDifficulty.end());
         }
-        if (dp[i][prevChar][freq][k] != -1)
+        for (int days = 2; days <= d; days++)
         {
-            return dp[i][prevChar][freq][k];
-        }
-        int delete_i = solve(s, i + 1, prevChar, freq, k - 1);
-        int keep_i = 0;
-        if (s[i] - 'a' != prevChar)
-        {
-            keep_i = 1 + solve(s, i + 1, s[i] - 'a', 1, k);
-        }
-        else
-        {
-            int one_more_addition = 0;
-            if (freq == 1 || freq == 9 || freq == 99)
+            for (int i = 0; i <= n - days; i++)
             {
-                one_more_addition = 1;
+                int maxD = INT_MIN;
+                int result = INT_MAX;
+                for (int j = i; j <= n - days; j++)
+                {
+                    maxD = max(maxD, jobDifficulty[j]);
+                    result = min(result, maxD + dp[j + 1][days - 1]);
+                }
+                dp[i][days] = result;
             }
-            keep_i = one_more_addition + solve(s, i + 1, prevChar, freq + 1, k);
         }
-        return dp[i][prevChar][freq][k] = min(keep_i, delete_i);
-    }
-    int getLengthOfOptimalCompression(string s, int k)
-    {
-        n = s.size();
-        memset(dp, -1, sizeof(dp));
-        return solve(s, 0, 26, 0, k);
+        return dp[0][d];
     }
 };
