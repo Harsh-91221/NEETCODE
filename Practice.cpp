@@ -5,17 +5,17 @@ public:
     {
         unordered_map<char, int> mp;
         int n = words.size();
+        int ch[26] = {0};
         for (auto st : words)
         {
             for (auto a : st)
             {
-                mp[a]++;
+                ch[a - 'a']++;
             }
         }
-        for (auto a : mp)
+        for (auto a : ch)
         {
-            int freq = a.second;
-            if (freq % n != 0)
+            if (a % n != 0)
             {
                 return false;
             }
