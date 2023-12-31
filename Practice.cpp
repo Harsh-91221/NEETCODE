@@ -1,25 +1,22 @@
 class Solution
 {
 public:
-    bool makeEqual(vector<string> &words)
+    int maxLengthBetweenEqualCharacters(string s)
     {
+        int maxi = -1;
         unordered_map<char, int> mp;
-        int n = words.size();
-        int ch[26] = {0};
-        for (auto st : words)
+        for (int i = 0; i < s.length(); i++)
         {
-            for (auto a : st)
+            char ch = s[i];
+            if (mp.find(ch) == mp.end())
             {
-                ch[a - 'a']++;
+                mp[ch] = i;
+            }
+            else
+            {
+                maxi = max(maxi, i - mp[ch] - 1);
             }
         }
-        for (auto a : ch)
-        {
-            if (a % n != 0)
-            {
-                return false;
-            }
-        }
-        return true;
+        return maxi;
     }
 };
