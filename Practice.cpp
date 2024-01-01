@@ -1,24 +1,18 @@
 class Solution
 {
 public:
-    int findContentChildren(vector<int> &g, vector<int> &s)
+    bool hasTrailingZeros(vector<int> &nums)
     {
-        int i = 0, j = 0, count = 0;
-        sort(g.begin(), g.end());
-        sort(s.begin(), s.end());
-        while (i < g.size() && j < s.size())
+        for (int i = 0; i < nums.size() - 1; i++)
         {
-            if (g[i] <= s[j])
+            for (int j = i + 1; j < nums.size(); j++)
             {
-                i++;
-                j++;
-                count++;
-            }
-            else
-            {
-                j++;
+                if ((nums[i] | nums[j]) % 2 == 0)
+                {
+                    return true;
+                }
             }
         }
-        return count;
+        return false;
     }
 };
