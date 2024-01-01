@@ -1,22 +1,24 @@
 class Solution
 {
 public:
-    int maxLengthBetweenEqualCharacters(string s)
+    int findContentChildren(vector<int> &g, vector<int> &s)
     {
-        int maxi = -1;
-        unordered_map<char, int> mp;
-        for (int i = 0; i < s.length(); i++)
+        int i = 0, j = 0, count = 0;
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+        while (i < g.size() && j < s.size())
         {
-            char ch = s[i];
-            if (mp.find(ch) == mp.end())
+            if (g[i] <= s[j])
             {
-                mp[ch] = i;
+                i++;
+                j++;
+                count++;
             }
             else
             {
-                maxi = max(maxi, i - mp[ch] - 1);
+                j++;
             }
         }
-        return maxi;
+        return count;
     }
 };
