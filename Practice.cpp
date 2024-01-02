@@ -1,18 +1,25 @@
 class Solution
 {
 public:
-    bool hasTrailingZeros(vector<int> &nums)
+    vector<vector<int>> findMatrix(vector<int> &nums)
     {
-        for (int i = 0; i < nums.size() - 1; i++)
+        unordered_map<int, int> mp;
+        int n = 0;
+        for (auto a : nums)
         {
-            for (int j = i + 1; j < nums.size(); j++)
+            mp[a]++;
+            n = max(n, mp[a]);
+        }
+        vector<vector<int>> ans(n);
+        for (auto a : mp)
+        {
+            int val = a.first;
+            int freq = a.second;
+            for (int i = 0; i < freq; i++)
             {
-                if ((nums[i] | nums[j]) % 2 == 0)
-                {
-                    return true;
-                }
+                ans[i].push_back(val);
             }
         }
-        return false;
+        return ans;
     }
 };
