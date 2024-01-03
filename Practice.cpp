@@ -1,23 +1,25 @@
 class Solution
 {
 public:
-    vector<vector<int>> findMatrix(vector<int> &nums)
+    int numberOfBeams(vector<string> &bank)
     {
-        unordered_map<int, int> mp;
-        int n = 0;
-        for (auto a : nums)
+        int ans = 0;
+        int prev = 0;
+        int count = 0;
+        for (string s : bank)
         {
-            mp[a]++;
-            n = max(n, mp[a]);
-        }
-        vector<vector<int>> ans(n);
-        for (auto a : mp)
-        {
-            int val = a.first;
-            int freq = a.second;
-            for (int i = 0; i < freq; i++)
+            count = 0;
+            for (int i = 0; i < s.size(); i++)
             {
-                ans[i].push_back(val);
+                if (s[i] == '1')
+                {
+                    count++;
+                }
+            }
+            if (count != 0)
+            {
+                ans += count * prev;
+                prev = count;
             }
         }
         return ans;
