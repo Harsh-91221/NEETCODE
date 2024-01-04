@@ -1,27 +1,42 @@
+// Calculate the frequency of elements and add the sum of their frequency in the pairs of 3 and if there is any remaining element then add 1 to the ans
 class Solution
 {
 public:
-    int numberOfBeams(vector<string> &bank)
+    int minOperations(vector<int> &nums)
     {
+        unordered_map<int, int> mp;
         int ans = 0;
-        int prev = 0;
-        int count = 0;
-        for (string s : bank)
+        for (auto a : nums)
         {
-            count = 0;
-            for (int i = 0; i < s.size(); i++)
+            mp[a]++;
+        }
+        for (auto a : mp)
+        {
+            if (a.second == 1)
             {
-                if (s[i] == '1')
-                {
-                    count++;
-                }
+                return -1;
             }
-            if (count != 0)
+            ans += a.second / 3;
+            if (a.second % 3)
             {
-                ans += count * prev;
-                prev = count;
+                ans++;
             }
         }
         return ans;
+        //  unordered_map<int,int> mp;
+        //     for(auto a:nums)
+        //     {
+        //         mp[a]++;
+        //     }
+        //     int result=0;
+        //     for(auto a:mp)
+        //     {
+        //         if(a.second<2)
+        //         {
+        //             return -1;
+        //         }
+        //         result+=(a.second+2)/3;
+        //     }
+        //     return result;
     }
 };
