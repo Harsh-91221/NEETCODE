@@ -1,42 +1,28 @@
-// Calculate the frequency of elements and add the sum of their frequency in the pairs of 3 and if there is any remaining element then add 1 to the ans
 class Solution
 {
 public:
-    int minOperations(vector<int> &nums)
+    int solve(vector<int> &nums, int i, int prev, vector<vector<int>> &dp)
     {
-        unordered_map<int, int> mp;
-        int ans = 0;
-        for (auto a : nums)
+        if (i >= nums.size())
         {
-            mp[a]++;
+            return 0;
         }
-        for (auto a : mp)
+        if (dp[i][prev + 1] != -1)
         {
-            if (a.second == 1)
-            {
-                return -1;
-            }
-            ans += a.second / 3;
-            if (a.second % 3)
-            {
-                ans++;
-            }
+            return dp[i][prev + 1];
         }
-        return ans;
-        //  unordered_map<int,int> mp;
-        //     for(auto a:nums)
-        //     {
-        //         mp[a]++;
-        //     }
-        //     int result=0;
-        //     for(auto a:mp)
-        //     {
-        //         if(a.second<2)
-        //         {
-        //             return -1;
-        //         }
-        //         result+=(a.second+2)/3;
-        //     }
-        //     return result;
+        int include = 0;
+        if (prev == -1 || nums[i] > nums[prev])
+            include = 1 + solve(nums, i + 1, i, dp);
+        int exclude = solve(nums, i + 1, prev, dp);
+        int ans = max(include, exclude);
+        return dp[i][prev + 1] = ans;
+    }
+    int lengthOfLIS(vector<int> &nums)
+    {
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(n + 1, -1));
+        int prev = -1;
+        return solve(nums, 0, prev, dp);
     }
 };
