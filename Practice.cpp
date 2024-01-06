@@ -1,20 +1,29 @@
 class Solution
 {
 public:
-    string removeStars(string s)
+    void solve(vector<vector<int>> &rooms, int s, vector<bool> &visited)
     {
-        string ans;
-        for (int i = 0; i < s.size(); i++)
+        visited[s] = true;
+        for (int i = 0; i < rooms[s].size(); i++)
         {
-            if (s[i] == '*')
+            if (!visited[rooms[s][i]])
             {
-                ans.pop_back();
-            }
-            else
-            {
-                ans.push_back(s[i]);
+                solve(rooms, rooms[s][i], visited);
             }
         }
-        return ans;
+    }
+    bool canVisitAllRooms(vector<vector<int>> &rooms)
+    {
+        int n = rooms.size();
+        vector<bool> visited(n, false);
+        solve(rooms, 0, visited);
+        for (int i = 0; i < n; i++)
+        {
+            if (!visited[i])
+            {
+                return false;
+            }
+        }
+        return true;
     }
 };
