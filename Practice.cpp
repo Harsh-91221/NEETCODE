@@ -1,29 +1,23 @@
 class Solution
 {
 public:
-    void solve(vector<vector<int>> &rooms, int s, vector<bool> &visited)
+    int maximumSetSize(vector<int> &nums1, vector<int> &nums2)
     {
-        visited[s] = true;
-        for (int i = 0; i < rooms[s].size(); i++)
+        int n = nums1.size();
+        unordered_set<int> s1, s2, common;
+        for (auto a : nums1)
         {
-            if (!visited[rooms[s][i]])
+            s1.insert(a);
+        }
+        for (auto a : nums2)
+        {
+            s2.insert(a);
+            if (s1.find(a) != s1.end())
             {
-                solve(rooms, rooms[s][i], visited);
+                common.insert(a);
             }
         }
-    }
-    bool canVisitAllRooms(vector<vector<int>> &rooms)
-    {
-        int n = rooms.size();
-        vector<bool> visited(n, false);
-        solve(rooms, 0, visited);
-        for (int i = 0; i < n; i++)
-        {
-            if (!visited[i])
-            {
-                return false;
-            }
-        }
-        return true;
+        int n1 = s1.size(), n2 = s2.size(), c = common.size();
+        return min(n, min(n1 - c, n / 2) + min(n2 - c, n / 2) + c);
     }
 };
