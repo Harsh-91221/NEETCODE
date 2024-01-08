@@ -1,42 +1,30 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution
 {
 public:
-    int rangeSumBST(TreeNode *root, int low, int high)
+    int longestConsecutive(vector<int> &nums)
     {
-        if (root == NULL)
+        sort(nums.begin(), nums.end());
+        int count = 1;
+        int longeststreak = 1;
+        if (nums.size() == 0)
         {
-            return NULL;
+            return 0;
         }
-        int ans = 0;
-        bool range = false;
-        if (root->val >= low && root->val <= high)
+        for (int i = 1; i < nums.size(); i++)
         {
-            range = true;
-            ans = ans + root->val;
+            if (nums[i] != nums[i - 1])
+            {
+                if (nums[i] == nums[i - 1] + 1)
+                {
+                    count++;
+                }
+                else
+                {
+                    longeststreak = max(longeststreak, count);
+                    count = 1;
+                }
+            }
         }
-        if (range)
-        {
-            ans = ans + rangeSumBST(root->left, low, high) + rangeSumBST(root->right, low, high);
-        }
-        if (root->val < low)
-        {
-            ans = ans + rangeSumBST(root->right, low, high);
-        }
-        if (root->val > high)
-        {
-            ans = ans + rangeSumBST(root->left, low, high);
-        }
-        return ans;
+        return max(longeststreak, count);
     }
 };
