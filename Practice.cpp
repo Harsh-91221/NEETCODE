@@ -1,23 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution
 {
 public:
-    int maximumSetSize(vector<int> &nums1, vector<int> &nums2)
+    int rangeSumBST(TreeNode *root, int low, int high)
     {
-        int n = nums1.size();
-        unordered_set<int> s1, s2, common;
-        for (auto a : nums1)
+        if (root == NULL)
         {
-            s1.insert(a);
+            return NULL;
         }
-        for (auto a : nums2)
+        int ans = 0;
+        bool range = false;
+        if (root->val >= low && root->val <= high)
         {
-            s2.insert(a);
-            if (s1.find(a) != s1.end())
-            {
-                common.insert(a);
-            }
+            range = true;
+            ans = ans + root->val;
         }
-        int n1 = s1.size(), n2 = s2.size(), c = common.size();
-        return min(n, min(n1 - c, n / 2) + min(n2 - c, n / 2) + c);
+        if (range)
+        {
+            ans = ans + rangeSumBST(root->left, low, high) + rangeSumBST(root->right, low, high);
+        }
+        if (root->val < low)
+        {
+            ans = ans + rangeSumBST(root->right, low, high);
+        }
+        if (root->val > high)
+        {
+            ans = ans + rangeSumBST(root->left, low, high);
+        }
+        return ans;
     }
 };
