@@ -1,30 +1,45 @@
 class Solution
 {
 public:
-    int longestConsecutive(vector<int> &nums)
+    vector<vector<int>> threeSum(vector<int> &nums)
     {
         sort(nums.begin(), nums.end());
-        int count = 1;
-        int longeststreak = 1;
-        if (nums.size() == 0)
+        vector<vector<int>> ans;
+        for (int i = 0; i < nums.size(); i++)
         {
-            return 0;
-        }
-        for (int i = 1; i < nums.size(); i++)
-        {
-            if (nums[i] != nums[i - 1])
+            if (i > 0 && nums[i] == nums[i - 1])
             {
-                if (nums[i] == nums[i - 1] + 1)
+                continue;
+            }
+            int j = i + 1;
+            int k = nums.size() - 1;
+            while (j < k)
+            {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum > 0)
                 {
-                    count++;
+                    k--;
+                }
+                else if (sum < 0)
+                {
+                    j++;
                 }
                 else
                 {
-                    longeststreak = max(longeststreak, count);
-                    count = 1;
+                    ans.push_back({nums[i], nums[j], nums[k]});
+                    j++;
+                    k--;
+                    while (j < k && nums[j] == nums[j - 1])
+                    {
+                        j++;
+                    }
+                    while (j < k && nums[k] == nums[k + 1])
+                    {
+                        k--;
+                    }
                 }
             }
         }
-        return max(longeststreak, count);
+        return ans;
     }
 };
