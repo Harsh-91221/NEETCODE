@@ -1,45 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution
 {
 public:
-    vector<vector<int>> threeSum(vector<int> &nums)
+    void solve(TreeNode *root, vector<int> &ans)
     {
-        sort(nums.begin(), nums.end());
-        vector<vector<int>> ans;
-        for (int i = 0; i < nums.size(); i++)
+        if (root == NULL)
         {
-            if (i > 0 && nums[i] == nums[i - 1])
-            {
-                continue;
-            }
-            int j = i + 1;
-            int k = nums.size() - 1;
-            while (j < k)
-            {
-                int sum = nums[i] + nums[j] + nums[k];
-                if (sum > 0)
-                {
-                    k--;
-                }
-                else if (sum < 0)
-                {
-                    j++;
-                }
-                else
-                {
-                    ans.push_back({nums[i], nums[j], nums[k]});
-                    j++;
-                    k--;
-                    while (j < k && nums[j] == nums[j - 1])
-                    {
-                        j++;
-                    }
-                    while (j < k && nums[k] == nums[k + 1])
-                    {
-                        k--;
-                    }
-                }
-            }
+            return;
         }
-        return ans;
+        if (root->left == NULL && root->right == NULL)
+        {
+            ans.push_back(root->val);
+            return;
+        }
+        solve(root->left, ans);
+        solve(root->right, ans);
+    }
+    bool leafSimilar(TreeNode *root1, TreeNode *root2)
+    {
+        vector<int> l;
+        vector<int> r;
+        solve(root1, l);
+        solve(root2, r);
+        return l == r;
     }
 };
