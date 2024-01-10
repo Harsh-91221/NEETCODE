@@ -12,26 +12,54 @@
 class Solution
 {
 public:
-    void solve(TreeNode *root, vector<int> &ans)
+    void makeGraph(unordered_map<int, vector<int>> &adj, int parent, TreeNode *curr)
     {
-        if (root == NULL)
+        if (curr == NULL)
         {
             return;
         }
-        if (root->left == NULL && root->right == NULL)
+        if (parent != -1)
         {
-            ans.push_back(root->val);
-            return;
+            adj[curr->val].push_back(parent);
         }
-        solve(root->left, ans);
-        solve(root->right, ans);
+        if (curr->left)
+        {
+            adj[curr->val].push_back(curr->left->val);
+        }
+        if (curr->right)
+        {
+            adj[curr->val].push_back(curr->right->val);
+        }
+        makeGraph(adj, curr->val, curr->left);
+        makeGraph(adj, curr->val, curr->right);
     }
-    bool leafSimilar(TreeNode *root1, TreeNode *root2)
+    int amountOfTime(TreeNode *root, int start)
     {
-        vector<int> l;
-        vector<int> r;
-        solve(root1, l);
-        solve(root2, r);
-        return l == r;
+        unordered_map<int, vector<int>> adj;
+        makeGraph(adj, -1, root);
+        queue<int> q;
+        unordered_set<int> visited;
+        q.push(start);
+        visited.insert(start);
+        int minutes = 0;
+        while (!q.empty())
+        {
+            int n = q.size();
+            while (n--)
+            {
+                int curr = q.front();
+                q.pop();
+                for (int nbr : adj[curr])
+                {
+                    if (visited.find(nbr) == visited.end())
+                    {
+                        q.push(nbr);
+                        visited.insert(nbr);
+                    }
+                }
+            }
+            minutes++;
+        }
+        return minutes - 1;
     }
 };
