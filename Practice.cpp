@@ -12,54 +12,24 @@
 class Solution
 {
 public:
-    void makeGraph(unordered_map<int, vector<int>> &adj, int parent, TreeNode *curr)
+    int solve(TreeNode *root, int maxval, int minval)
     {
-        if (curr == NULL)
+        if (root == NULL)
         {
-            return;
+            return maxval - minval;
         }
-        if (parent != -1)
-        {
-            adj[curr->val].push_back(parent);
-        }
-        if (curr->left)
-        {
-            adj[curr->val].push_back(curr->left->val);
-        }
-        if (curr->right)
-        {
-            adj[curr->val].push_back(curr->right->val);
-        }
-        makeGraph(adj, curr->val, curr->left);
-        makeGraph(adj, curr->val, curr->right);
+        maxval = max(maxval, root->val);
+        minval = min(minval, root->val);
+        int maxleftdiff = solve(root->left, maxval, minval);
+        int maxrightdiff = solve(root->right, maxval, minval);
+        return max(maxleftdiff, maxrightdiff);
     }
-    int amountOfTime(TreeNode *root, int start)
+    int maxAncestorDiff(TreeNode *root)
     {
-        unordered_map<int, vector<int>> adj;
-        makeGraph(adj, -1, root);
-        queue<int> q;
-        unordered_set<int> visited;
-        q.push(start);
-        visited.insert(start);
-        int minutes = 0;
-        while (!q.empty())
+        if (root == NULL)
         {
-            int n = q.size();
-            while (n--)
-            {
-                int curr = q.front();
-                q.pop();
-                for (int nbr : adj[curr])
-                {
-                    if (visited.find(nbr) == visited.end())
-                    {
-                        q.push(nbr);
-                        visited.insert(nbr);
-                    }
-                }
-            }
-            minutes++;
+            return 0;
         }
-        return minutes - 1;
+        return solve(root, root->val, root->val);
     }
 };
