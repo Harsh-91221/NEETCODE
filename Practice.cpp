@@ -1,35 +1,35 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution
 {
 public:
-    int solve(TreeNode *root, int maxval, int minval)
+    bool isvowel(char s)
     {
-        if (root == NULL)
+        if (s == 'a' || s == 'e' || s == 'i' || s == 'o' || s == 'u' || s == 'A' || s == 'E' || s == 'I' || s == 'O' || s == 'U')
         {
-            return maxval - minval;
+            return true;
         }
-        maxval = max(maxval, root->val);
-        minval = min(minval, root->val);
-        int maxleftdiff = solve(root->left, maxval, minval);
-        int maxrightdiff = solve(root->right, maxval, minval);
-        return max(maxleftdiff, maxrightdiff);
+        else
+        {
+            return false;
+        }
     }
-    int maxAncestorDiff(TreeNode *root)
+    bool halvesAreAlike(string s)
     {
-        if (root == NULL)
+        int n = s.size();
+        int count1 = 0, count2 = 0;
+        for (int i = 0; i < n / 2; i++)
         {
-            return 0;
+            if (isvowel(s[i]))
+            {
+                count1++;
+            }
         }
-        return solve(root, root->val, root->val);
+        for (int i = n / 2; i < n; i++)
+        {
+            if (isvowel(s[i]))
+            {
+                count2++;
+            }
+        }
+        return count1 == count2;
     }
 };
