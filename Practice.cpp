@@ -1,22 +1,32 @@
 class Solution
 {
 public:
-    int minSteps(string s, string t)
+    vector<string> splitWordsBySeparator(vector<string> &words, char separator)
     {
-        vector<int> mp(26, 0);
-        int count = 0;
-        for (int i = 0; i < s.size(); i++)
+        vector<string> ans;
+        for (int i = 0; i < words.size(); i++)
         {
-            mp[s[i] - 'a']++;
-            mp[t[i] - 'a']--;
-        }
-        for (auto a : mp)
-        {
-            if (a > 0)
+            string currentword;
+            for (int j = 0; j < words[i].size(); j++)
             {
-                count += a;
+                if (words[i][j] != separator)
+                {
+                    currentword += words[i][j];
+                }
+                else
+                {
+                    if (!currentword.empty())
+                    {
+                        ans.push_back(currentword);
+                        currentword = "";
+                    }
+                }
+            }
+            if (!currentword.empty())
+            {
+                ans.push_back(currentword);
             }
         }
-        return count;
+        return ans;
     }
 };
