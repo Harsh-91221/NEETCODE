@@ -1,35 +1,22 @@
 class Solution
 {
 public:
-    bool isvowel(char s)
+    int minSteps(string s, string t)
     {
-        if (s == 'a' || s == 'e' || s == 'i' || s == 'o' || s == 'u' || s == 'A' || s == 'E' || s == 'I' || s == 'O' || s == 'U')
+        vector<int> mp(26, 0);
+        int count = 0;
+        for (int i = 0; i < s.size(); i++)
         {
-            return true;
+            mp[s[i] - 'a']++;
+            mp[t[i] - 'a']--;
         }
-        else
+        for (auto a : mp)
         {
-            return false;
-        }
-    }
-    bool halvesAreAlike(string s)
-    {
-        int n = s.size();
-        int count1 = 0, count2 = 0;
-        for (int i = 0; i < n / 2; i++)
-        {
-            if (isvowel(s[i]))
+            if (a > 0)
             {
-                count1++;
+                count += a;
             }
         }
-        for (int i = n / 2; i < n; i++)
-        {
-            if (isvowel(s[i]))
-            {
-                count2++;
-            }
-        }
-        return count1 == count2;
+        return count;
     }
 };
