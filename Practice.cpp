@@ -1,40 +1,38 @@
 class Solution
 {
 public:
-    vector<int> beautifulIndices(string s, string a, string b, int k)
+    vector<vector<int>> findWinners(vector<vector<int>> &matches)
     {
-        vector<int> ans;
-        vector<int> a_index;
-        vector<int> b_index;
-        int x = s.size();
-        int y = a.size();
-        int z = b.size();
-        for (int i = 0; i <= x - y; i++)
+        vector<int> mp(100001, -1);
+        for (auto a : matches)
         {
-            if (s.substr(i, y) == a)
+            int Pwin = a[0];
+            int Plost = a[1];
+            if (mp[Pwin] == -1)
             {
-                a_index.push_back(i);
+                mp[Pwin] = 0;
+            }
+            if (mp[Plost] == -1)
+            {
+                mp[Plost] = 1;
+            }
+            else
+            {
+                mp[Plost]++;
             }
         }
-        for (int i = 0; i <= x - z; i++)
+        vector<int> zeroLost, oneLost;
+        for (int i = 1; i < 100001; i++)
         {
-            if (s.substr(i, z) == b)
+            if (mp[i] == 0)
             {
-                b_index.push_back(i);
+                zeroLost.push_back(i);
+            }
+            else if (mp[i] == 1)
+            {
+                oneLost.push_back(i);
             }
         }
-        for (int i = 0; i < a_index.size(); i++)
-        {
-            for (int j = 0; j < b_index.size(); j++)
-            {
-                if (abs(a_index[i] - b_index[j]) <= k)
-                {
-                    ans.push_back(a_index[i]);
-                    break;
-                }
-            }
-        }
-        sort(ans.begin(), ans.end());
-        return ans;
+        return {zeroLost, oneLost};
     }
 };
