@@ -1,18 +1,39 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution
 {
 public:
-    bool uniqueOccurrences(vector<int> &arr)
+    int gcd(int a, int b)
     {
-        unordered_map<int, int> mp;
-        set<int> s;
-        for (auto a : arr)
+        if (b == 0)
         {
-            mp[a]++;
+            return a;
         }
-        for (auto a : mp)
+        return gcd(b, a % b);
+    }
+    ListNode *insertGreatestCommonDivisors(ListNode *head)
+    {
+        if (head == NULL || head->next == NULL)
         {
-            s.insert(a.second);
+            return head;
         }
-        return mp.size() == s.size();
+        ListNode *temp = head;
+        while (temp->next != NULL)
+        {
+            ListNode *node = new ListNode(gcd(temp->val, temp->next->val));
+            ListNode *forward = temp->next;
+            temp->next = node;
+            node->next = forward;
+            temp = forward;
+        }
+        return head;
     }
 };
