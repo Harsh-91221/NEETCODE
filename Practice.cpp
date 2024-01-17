@@ -1,45 +1,18 @@
-class RandomizedSet
+class Solution
 {
 public:
-    set<int> s;
-    RandomizedSet()
+    bool uniqueOccurrences(vector<int> &arr)
     {
-    }
-
-    bool insert(int val)
-    {
-        if (s.find(val) == s.end())
+        unordered_map<int, int> mp;
+        set<int> s;
+        for (auto a : arr)
         {
-            s.insert(val);
-            return true;
+            mp[a]++;
         }
-        return false;
-    }
-
-    bool remove(int val)
-    {
-        if (s.find(val) != s.end())
+        for (auto a : mp)
         {
-            s.erase(val);
-            return true;
+            s.insert(a.second);
         }
-        return false;
-    }
-
-    int getRandom()
-    {
-        int r = rand() % s.size();
-        auto it = s.begin();
-        advance(it, r);
-        int key = *it;
-        return key;
+        return mp.size() == s.size();
     }
 };
-
-/**
- * Your RandomizedSet object will be instantiated and called as such:
- * RandomizedSet* obj = new RandomizedSet();
- * bool param_1 = obj->insert(val);
- * bool param_2 = obj->remove(val);
- * int param_3 = obj->getRandom();
- */
