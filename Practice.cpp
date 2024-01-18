@@ -23,7 +23,7 @@ public:
     {
         if (head == NULL || head->next == NULL)
         {
-            return head;
+            return head;;
         }
         ListNode *temp = head;
         while (temp->next != NULL)
