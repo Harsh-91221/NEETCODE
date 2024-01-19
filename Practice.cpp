@@ -1,39 +1,31 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution
 {
 public:
-    int gcd(int a, int b)
+    int solve(vector<vector<int>> &matrix, int row, int col, vector<vector<int>> &dp)
     {
-        if (b == 0)
+        if (row == 0 and col < matrix[0].size() and col >= 0)
         {
-            return a;
+            return matrix[row][col];
         }
-        return gcd(b, a % b);
+        if (col >= matrix[0].size() or c < 0)
+        {
+            return INT_MAX;
+        }
+        if (dp[row][col] != INT_MAX)
+        {
+            return dp[row][col];
+        }
+        return dp[row][col] = matrix[row][col] + min(min(solve(matrix, row - 1, col + 1, dp), solve(matrix, row - 1, col, dp)), solve(matrix, row - 1, col - 1, dp));
     }
-    ListNode *insertGreatestCommonDivisors(ListNode *head)
+    int minFallingPathSum(vector<vector<int>> &matrix)
     {
-        if (head == NULL || head->next == NULL)
+        int m = matrix.size(), n = matrix[0].size();
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, INT_MAX));
+        int ans = INT_MAX;
+        for (int c = 0; c < n; c++)
         {
-            return head;;
+            ans = min(ans, solve(matrix, m - 1, c, dp));
         }
-        ListNode *temp = head;
-        while (temp->next != NULL)
-        {
-            ListNode *node = new ListNode(gcd(temp->val, temp->next->val));
-            ListNode *forward = temp->next;
-            temp->next = node;
-            node->next = forward;
-            temp = forward;
-        }
-        return head;
+        return ans;
     }
 };
