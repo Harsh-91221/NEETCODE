@@ -1,4 +1,3 @@
-
 int solve(vector<vector<int>> &matrix, int row, int col, vector<vector<int>> &dp)
 {
     if (row == 0 and col < matrix[0].size() and col >= 0)
