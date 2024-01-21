@@ -1,35 +1,25 @@
 class Solution
 {
 public:
-    int solve(int n)
+    vector<long long> countOfPairs(int n, int x, int y)
     {
-        int count = 0;
-        while (n != 0)
+        if (x > y)
         {
-            n = n & (n - 1);
-            count++;
+            return countOfPairs(n, y, x);
         }
-        return count;
-    }
-    bool canSortArray(vector<int> &nums)
-    {
-        for (int i = 0; i < nums.size(); i++)
+        vector<long long> ans(n, 0);
+        for (int i = 1; i <= n; i++)
         {
-            for (int j = 0; j < nums.size() - i - 1; j++)
+            for (int j = 1; j < i; j++)
             {
-                if (nums[j] > nums[j + 1] && solve(nums[j]) == solve(nums[j + 1]))
+                int index = i - j;
+                index = min(index, abs(j - x) + abs(i - y) + 1);
+                if (index >= 1)
                 {
-                    swap(nums[j], nums[j + 1]);
+                    ans[index - 1] += 2;
                 }
             }
         }
-        for (int i = 0; i < nums.size() - 1; i++)
-        {
-            if (nums[i] > nums[i + 1])
-            {
-                return false;
-            }
-        }
-        return true;
+        return ans;
     }
 };
