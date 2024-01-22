@@ -1,25 +1,29 @@
 class Solution
 {
 public:
-    vector<long long> countOfPairs(int n, int x, int y)
+    vector<int> findErrorNums(vector<int> &nums)
     {
-        if (x > y)
+        unordered_map<int, int> mp;
+        int n = nums.size();
+        for (auto a : nums)
         {
-            return countOfPairs(n, y, x);
+            mp[a]++;
         }
-        vector<long long> ans(n, 0);
+        int miss = 0;
         for (int i = 1; i <= n; i++)
         {
-            for (int j = 1; j < i; j++)
+            if (mp.find(i) == mp.end())
             {
-                int index = i - j;
-                index = min(index, abs(j - x) + abs(i - y) + 1);
-                if (index >= 1)
-                {
-                    ans[index - 1] += 2;
-                }
+                miss = i;
             }
         }
-        return ans;
+        for (auto a : mp)
+        {
+            if (a.second == 2)
+            {
+                return {a.first, miss};
+            }
+        }
+        return {};
     }
 };
