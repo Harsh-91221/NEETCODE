@@ -1,29 +1,19 @@
 class Solution
 {
 public:
-    vector<int> findErrorNums(vector<int> &nums)
+    int lengthOfLastWord(string s)
     {
-        unordered_map<int, int> mp;
-        int n = nums.size();
-        for (auto a : nums)
+        int count = 0;
+        int i = s.size() - 1;
+        while (i >= 0 && s[i] == ' ')
         {
-            mp[a]++;
+            i--;
         }
-        int miss = 0;
-        for (int i = 1; i <= n; i++)
+        while (i >= 0 && s[i] != ' ')
         {
-            if (mp.find(i) == mp.end())
-            {
-                miss = i;
-            }
+            count++;
+            i--;
         }
-        for (auto a : mp)
-        {
-            if (a.second == 2)
-            {
-                return {a.first, miss};
-            }
-        }
-        return {};
+        return count;
     }
 };
