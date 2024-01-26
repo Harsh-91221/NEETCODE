@@ -1,48 +1,32 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution
 {
 public:
-    int ans = 0;
-    void solve(TreeNode *root, vector<int> &count)
+    int MOD = 1e9 + 7;
+    int solve(int m, int n, int maxMove, int startRow, int startColumn, int moves, vector<vector<vector<int>>> &dp)
     {
-        if (root == NULL)
+        if (startRow >= m || startColumn >= n || startRow < 0 || startColumn < 0)
         {
-            return;
+            return 1;
         }
-        count[root->val]++;
-        if (root->left == NULL && root->right == NULL)
+        if (moves == maxMove)
         {
-            int oddfreq = 0;
-            for (int i = 1; i <= 9; i++)
-            {
-                if (count[i] % 2 != 0)
-                {
-                    oddfreq++;
-                }
-            }
-            if (oddfreq <= 1)
-            {
-                ans++;
-            }
+            return 0;
         }
-        solve(root->left, count);
-        solve(root->right, count);
-        count[root->val]--;
+        if (dp[moves][startRow][startColumn] != -1)
+        {
+            return dp[moves][startRow][startColumn];
+        }
+        long long ans = 0;
+        ans += solve(m, n, maxMove, startRow, startColumn - 1, moves + 1, dp) % MOD;
+        ans += solve(m, n, maxMove, startRow - 1, startColumn, moves + 1, dp) % MOD;
+        ans += solve(m, n, maxMove, startRow + 1, startColumn, moves + 1, dp) % MOD;
+        ans += solve(m, n, maxMove, startRow, startColumn + 1, moves + 1, dp) % MOD;
+        return dp[moves][startRow][startColumn] = ans % MOD;
+        ;
     }
-    int pseudoPalindromicPaths(TreeNode *root)
+    int findPaths(int m, int n, int maxMove, int startRow, int startColumn)
     {
-        vector<int> count(10, 0);
-        solve(root, count);
-        return ans;
+        vector<vector<vector<int>>> dp(maxMove + 1, vector<vector<int>>(m + 1, vector<int>(n + 1, -1)));
+        return solve(m, n, maxMove, startRow, startColumn, 0, dp);
     }
 };
