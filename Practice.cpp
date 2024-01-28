@@ -1,27 +1,17 @@
 class Solution
 {
 public:
-    vector<int> shortestToChar(string s, char c)
+    int countKeyChanges(string s)
     {
-        vector<int> ans;
-        for (int i = 0; i < s.size(); i++)
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        int count = 0;
+        for (int i = 0; i < s.size() - 1; i++)
         {
-            if (s[i] == c)
+            if (s[i] != s[i + 1])
             {
-                ans.push_back(i);
+                count++;
             }
         }
-        vector<int> result;
-        for (int i = 0; i < s.size(); i++)
-        {
-            int mini = INT_MAX;
-            for (int j = 0; j < ans.size(); j++)
-            {
-                int temp = abs(i - ans[j]);
-                mini = min(mini, temp);
-            }
-            result.push_back(mini);
-        }
-        return result;
+        return count;
     }
 };
