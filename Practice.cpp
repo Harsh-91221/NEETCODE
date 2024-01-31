@@ -1,39 +1,28 @@
 class Solution
 {
 public:
-    int evalRPN(vector<string> &tokens)
+    vector<int> dailyTemperatures(vector<int> &temperatures)
     {
+        int n = temperatures.size();
         stack<int> s;
-        for (auto a : tokens)
+        vector<int> result(n);
+        for (int i = n - 1; i >= 0; i--)
         {
-            if (a == "+" || a == "-" || a == "*" || a == "/")
+            int curr = temperatures[i];
+            while (!s.empty() && temperatures[s.top()] <= curr)
             {
-                int op2 = s.top();
                 s.pop();
-                int op1 = s.top();
-                s.pop();
-                if (a == "+")
-                {
-                    s.push(op1 + op2);
-                }
-                if (a == "-")
-                {
-                    s.push(op1 - op2);
-                }
-                if (a == "*")
-                {
-                    s.push(op1 * op2);
-                }
-                if (a == "/")
-                {
-                    s.push(op1 / op2);
-                }
+            }
+            if (s.empty())
+            {
+                result[i] = 0;
             }
             else
             {
-                s.push(stoi(a));
+                result[i] = s.top() - i;
             }
+            s.push(i);
         }
-        return s.top();
+        return result;
     }
 };
