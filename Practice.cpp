@@ -1,28 +1,27 @@
 class Solution
 {
 public:
-    vector<int> dailyTemperatures(vector<int> &temperatures)
+    bool contain(string words, char x)
     {
-        int n = temperatures.size();
-        stack<int> s;
-        vector<int> result(n);
-        for (int i = n - 1; i >= 0; i--)
+        for (int i = 0; i < words.size(); i++)
         {
-            int curr = temperatures[i];
-            while (!s.empty() && temperatures[s.top()] <= curr)
+            if (words[i] == x)
             {
-                s.pop();
+                return true;
             }
-            if (s.empty())
-            {
-                result[i] = 0;
-            }
-            else
-            {
-                result[i] = s.top() - i;
-            }
-            s.push(i);
         }
-        return result;
+        return false;
+    }
+    vector<int> findWordsContaining(vector<string> &words, char x)
+    {
+        vector<int> ans;
+        for (int i = 0; i < words.size(); i++)
+        {
+            if (contain(words[i], x))
+            {
+                ans.push_back(i);
+            }
+        }
+        return ans;
     }
 };
