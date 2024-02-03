@@ -1,28 +1,21 @@
 class Solution
 {
 public:
-    int reverse(int n)
+    string triangleType(vector<int> &nums)
     {
-        int s = 0;
-        while (n != 0)
+        sort(nums.begin(), nums.end());
+        if (nums[0] + nums[1] <= nums[2])
         {
-            int r = n % 10;
-            s = s * 10 + r;
-            n = n / 10;
+            return "none";
         }
-        return s;
-    }
-    int countDistinctIntegers(vector<int> &nums)
-    {
-        set<int> s;
-        for (int i = 0; i < nums.size(); i++)
+        else if (nums[0] == nums[1] && nums[1] == nums[2])
         {
-            s.insert(nums[i]);
+            return "equilateral";
         }
-        for (int i = 0; i < nums.size(); i++)
+        else if ((nums[0] == nums[1] && nums[1] != nums[2]) || (nums[0] == nums[2] && nums[0] != nums[1]) || (nums[0] != nums[2] && nums[1] == nums[2]))
         {
-            s.insert(reverse(nums[i]));
+            return "isosceles";
         }
-        return s.size();
+        return "scalene";
     }
 };
