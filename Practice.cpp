@@ -1,21 +1,19 @@
 class Solution
 {
 public:
-    string triangleType(vector<int> &nums)
+    int findRadius(vector<int> &houses, vector<int> &heaters)
     {
-        sort(nums.begin(), nums.end());
-        if (nums[0] + nums[1] <= nums[2])
+        int maxi = INT_MIN;
+        for (int i = 0; i < houses.size(); i++)
         {
-            return "none";
+            int mini = INT_MAX;
+            for (int j = 0; j < heaters.size(); j++)
+            {
+                int res = abs(houses[i] - heaters[j]);
+                mini = min(mini, res);
+            }
+            maxi = max(maxi, mini);
         }
-        else if (nums[0] == nums[1] && nums[1] == nums[2])
-        {
-            return "equilateral";
-        }
-        else if ((nums[0] == nums[1] && nums[1] != nums[2]) || (nums[0] == nums[2] && nums[0] != nums[1]) || (nums[0] != nums[2] && nums[1] == nums[2]))
-        {
-            return "isosceles";
-        }
-        return "scalene";
+        return maxi;
     }
 };
