@@ -1,19 +1,48 @@
 class Solution
 {
 public:
-    int findRadius(vector<int> &houses, vector<int> &heaters)
+    string minWindow(string s, string t)
     {
-        int maxi = INT_MIN;
-        for (int i = 0; i < houses.size(); i++)
+        int i = 0;
+        int j = 0;
+        int n = s.length();
+        if (t.size() > s.size())
         {
-            int mini = INT_MAX;
-            for (int j = 0; j < heaters.size(); j++)
-            {
-                int res = abs(houses[i] - heaters[j]);
-                mini = min(mini, res);
-            }
-            maxi = max(maxi, mini);
+            return "";
         }
-        return maxi;
+        int minwindowsize = INT_MAX;
+        int start_i = 0;
+        int requiredcount = t.size();
+        unordered_map<char, int> mp;
+        for (auto a : t)
+        {
+            mp[a]++;
+        }
+        while (j < n)
+        {
+            char ch = s[j];
+            if (mp[ch] > 0)
+            {
+                requiredcount--;
+            }
+            mp[ch]--;
+            while (requiredcount == 0)
+            {
+                int currwindowsize = j - i + 1;
+                if (minwindowsize > currwindowsize)
+                {
+                    minwindowsize = currwindowsize;
+                    start_i = i;
+                }
+                mp[s[i]]++;
+                if (mp[s[i]] > 0)
+                {
+                    requiredcount++;
+                }
+                i++;
+            }
+            j++;
+        }
+        return minwindowsize == INT_MAX ? "" : s.substr(start_i, minwindowsize);
     }
 };
