@@ -1,26 +1,20 @@
 class Solution
 {
 public:
-    int longestOnes(vector<int> &nums, int k)
+    vector<vector<string>> groupAnagrams(vector<string> &strs)
     {
-        int i = 0;
-        int j = 0;
-        while (j < nums.size())
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> mp;
+        for (auto a : strs)
         {
-            if (nums[j] == 0)
-            {
-                k--;
-            }
-            if (k < 0)
-            {
-                if (nums[i] == 0)
-                {
-                    k++;
-                }
-                i++;
-            }
-            j++;
+            string temp = a;
+            sort(a.begin(), a.end());
+            mp[a].push_back(temp);
         }
-        return j - i;
+        for (auto a : mp)
+        {
+            result.push_back(a.second);
+        }
+        return result;
     }
 };
