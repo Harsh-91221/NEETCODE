@@ -1,20 +1,39 @@
 class Solution
 {
 public:
-    vector<vector<string>> groupAnagrams(vector<string> &strs)
+    long long flowerGame(int n, int m)
     {
-        vector<vector<string>> result;
-        unordered_map<string, vector<string>> mp;
-        for (auto a : strs)
+        long long xOdd = 0;
+        for (int i = 1; i <= n; i += 2)
         {
-            string temp = a;
-            sort(a.begin(), a.end());
-            mp[a].push_back(temp);
+            xOdd++;
         }
-        for (auto a : mp)
+        long long xEven = 0;
+        for (int i = 2; i <= n; i += 2)
         {
-            result.push_back(a.second);
+            xEven++;
         }
-        return result;
+        long long yOdd = 0;
+        for (int i = 1; i <= m; i += 2)
+        {
+            yOdd++;
+        }
+        long long yEven = 0;
+        for (int i = 2; i <= m; i += 2)
+        {
+            yEven++;
+        }
+        long long ans = 0;
+        // x is odd,y is even
+        for (int i = 1; i <= n; i += 2)
+        {
+            ans += yEven;
+        }
+        // x is even,y is odd
+        for (int i = 2; i <= n; i += 2)
+        {
+            ans += yOdd;
+        }
+        return ans;
     }
 };
