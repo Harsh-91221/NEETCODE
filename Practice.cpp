@@ -1,39 +1,27 @@
 class Solution
 {
 public:
-    long long flowerGame(int n, int m)
+    int solve(int n, vector<int> &dp)
     {
-        long long xOdd = 0;
-        for (int i = 1; i <= n; i += 2)
+        long long mini = INT_MAX;
+        if (n == 0)
         {
-            xOdd++;
+            return 0;
         }
-        long long xEven = 0;
-        for (int i = 2; i <= n; i += 2)
+        if (dp[n] != -1)
         {
-            xEven++;
+            return dp[n];
         }
-        long long yOdd = 0;
-        for (int i = 1; i <= m; i += 2)
+        for (int i = 1; i * i <= n; i++)
         {
-            yOdd++;
+            long long res = 1 + solve(n - i * i, dp);
+            mini = min(mini, res);
         }
-        long long yEven = 0;
-        for (int i = 2; i <= m; i += 2)
-        {
-            yEven++;
-        }
-        long long ans = 0;
-        // x is odd,y is even
-        for (int i = 1; i <= n; i += 2)
-        {
-            ans += yEven;
-        }
-        // x is even,y is odd
-        for (int i = 2; i <= n; i += 2)
-        {
-            ans += yOdd;
-        }
-        return ans;
+        return dp[n] = mini;
+    }
+    int numSquares(int n)
+    {
+        vector<int> dp(n + 1, -1);
+        return solve(n, dp);
     }
 };
