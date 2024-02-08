@@ -1,27 +1,20 @@
 class Solution
 {
 public:
-    int solve(int n, vector<int> &dp)
+    long long subArrayRanges(vector<int> &nums)
     {
-        long long mini = INT_MAX;
-        if (n == 0)
+        long long ans = 0;
+        for (int i = 0; i < nums.size(); i++)
         {
-            return 0;
+            int maxi = INT_MIN;
+            int mini = INT_MAX;
+            for (int j = i; j < nums.size(); j++)
+            {
+                maxi = max(maxi, nums[j]);
+                mini = min(mini, nums[j]);
+                ans += (maxi - mini);
+            }
         }
-        if (dp[n] != -1)
-        {
-            return dp[n];
-        }
-        for (int i = 1; i * i <= n; i++)
-        {
-            long long res = 1 + solve(n - i * i, dp);
-            mini = min(mini, res);
-        }
-        return dp[n] = mini;
-    }
-    int numSquares(int n)
-    {
-        vector<int> dp(n + 1, -1);
-        return solve(n, dp);
+        return ans;
     }
 };
