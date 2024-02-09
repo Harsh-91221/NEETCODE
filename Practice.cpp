@@ -1,31 +1,23 @@
 class Solution
 {
 public:
-    vector<int> memLeak(int memory1, int memory2)
+    int longestSubarray(vector<int> &nums)
     {
-        int crash = 1;
-        while (true)
+        int maxi = *max_element(nums.begin(), nums.end());
+        int count = 0;
+        int ans = 0;
+        for (int num : nums)
         {
-            if (memory1 == memory2 && memory1 >= crash)
+            if (num == maxi)
             {
-                memory1 -= crash;
-                crash++;
-            }
-            else if (memory1 > memory2 && memory1 >= crash)
-            {
-                memory1 -= crash;
-                crash++;
-            }
-            else if (memory1 < memory2 && memory2 >= crash)
-            {
-                memory2 -= crash;
-                crash++;
+                count++;
+                ans = max(ans, count);
             }
             else
             {
-                break;
+                count = 0;
             }
         }
-        return {crash, memory1, memory2};
+        return ans;
     }
 };
