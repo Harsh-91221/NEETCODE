@@ -1,20 +1,31 @@
 class Solution
 {
 public:
-    long long subArrayRanges(vector<int> &nums)
+    vector<int> memLeak(int memory1, int memory2)
     {
-        long long ans = 0;
-        for (int i = 0; i < nums.size(); i++)
+        int crash = 1;
+        while (true)
         {
-            int maxi = INT_MIN;
-            int mini = INT_MAX;
-            for (int j = i; j < nums.size(); j++)
+            if (memory1 == memory2 && memory1 >= crash)
             {
-                maxi = max(maxi, nums[j]);
-                mini = min(mini, nums[j]);
-                ans += (maxi - mini);
+                memory1 -= crash;
+                crash++;
+            }
+            else if (memory1 > memory2 && memory1 >= crash)
+            {
+                memory1 -= crash;
+                crash++;
+            }
+            else if (memory1 < memory2 && memory2 >= crash)
+            {
+                memory2 -= crash;
+                crash++;
+            }
+            else
+            {
+                break;
             }
         }
-        return ans;
+        return {crash, memory1, memory2};
     }
 };
