@@ -1,39 +1,48 @@
-class Solution
+class CustomStack
 {
 public:
-    void solve(vector<int> &nums, int idx, vector<int> &temp, vector<int> &result, int prev, vector<vector<int>> &dp)
+    vector<int> s;
+    int size;
+    CustomStack(int maxSize)
     {
-        if (idx >= nums.size())
-        {
-            if (temp.size() > result.size())
-            {
-                result = temp;
-            }
-            return;
-        }
-        if (!dp[idx].empty())
-        {
-            temp = dp[idx];
-            return;
-        }
-        if (prev == -1 || nums[idx] % prev == 0)
-        {
-            temp.push_back(nums[idx]);
-            solve(nums, idx + 1, temp, result, nums[idx], dp);
-            temp.pop_back();
-        }
-        solve(nums, idx + 1, temp, result, prev, dp);
-        dp[idx] = temp;
+        this->size = maxSize;
     }
 
-    vector<int> largestDivisibleSubset(vector<int> &nums)
+    void push(int x)
     {
-        sort(nums.begin(), nums.end());
-        vector<int> result;
-        vector<int> temp;
-        int n = nums.size();
-        vector<vector<int>> dp(n + 1, vector<int>());
-        solve(nums, 0, temp, result, -1, dp);
-        return result;
+        if (s.size() < size)
+        {
+            s.push_back(x);
+        }
+    }
+
+    int pop()
+    {
+        if (s.empty())
+        {
+            return -1;
+        }
+        else
+        {
+            int temp = s.back();
+            s.pop_back();
+            return temp;
+        }
+    }
+
+    void increment(int k, int val)
+    {
+        for (int i = 0; i < k && i < s.size(); i++)
+        {
+            s[i] += val;
+        }
     }
 };
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack* obj = new CustomStack(maxSize);
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * obj->increment(k,val);
+ */
