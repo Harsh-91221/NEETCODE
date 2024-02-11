@@ -1,48 +1,29 @@
-class CustomStack
+class Solution
 {
 public:
-    vector<int> s;
-    int size;
-    CustomStack(int maxSize)
+    int solve(vector<int> &nums, vector<int> &pattern, int i, int j)
     {
-        this->size = maxSize;
+        if (j == pattern.size())
+        {
+            return 1;
+        }
+        if (i == nums.size() - 1)
+        {
+            return 0;
+        }
+        if ((pattern[j] == 0 && nums[i] == nums[i + 1]) || (pattern[j] == 1 && nums[i] < nums[i + 1]) || (pattern[j] == -1 && nums[i] > nums[i + 1]))
+        {
+            return solve(nums, pattern, i + 1, j + 1);
+        }
+        return 0;
     }
-
-    void push(int x)
+    int countMatchingSubarrays(vector<int> &nums, vector<int> &pattern)
     {
-        if (s.size() < size)
+        int count = 0;
+        for (int i = 0; i < nums.size(); i++)
         {
-            s.push_back(x);
+            count += solve(nums, pattern, i, 0);
         }
-    }
-
-    int pop()
-    {
-        if (s.empty())
-        {
-            return -1;
-        }
-        else
-        {
-            int temp = s.back();
-            s.pop_back();
-            return temp;
-        }
-    }
-
-    void increment(int k, int val)
-    {
-        for (int i = 0; i < k && i < s.size(); i++)
-        {
-            s[i] += val;
-        }
+        return count;
     }
 };
-
-/**
- * Your CustomStack object will be instantiated and called as such:
- * CustomStack* obj = new CustomStack(maxSize);
- * obj->push(x);
- * int param_2 = obj->pop();
- * obj->increment(k,val);
- */
